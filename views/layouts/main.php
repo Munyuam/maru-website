@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="MALU Online Player Registration System - Register players for Malawi Rugby Union">
+    <title><?= $pageTitle ?? 'MALU Player Registration' ?></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="/public/css/design-system.css">
+    <link rel="stylesheet" href="/public/css/components.css">
+    <link rel="stylesheet" href="/public/css/pages.css">
+    <script>
+        // Check for saved user preference, if any, on load of the website
+        let theme = localStorage.getItem('theme');
+        if (!theme) {
+            theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+    </script>
+</head>
+<body>
+    <?php include __DIR__ . '/../partials/header.php'; ?>
+    
+    <main>
+        <?php include __DIR__ . '/../partials/alerts.php'; ?>
+        <?= $content ?? '' ?>
+    </main>
+    
+    <?php include __DIR__ . '/../partials/footer.php'; ?>
+    
+    <script src="/public/js/app.js"></script>
+    <?php if (isset($scripts)): ?>
+        <?php foreach ($scripts as $script): ?>
+            <script src="<?= $script ?>"></script>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</body>
+</html>

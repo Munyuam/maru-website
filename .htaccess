@@ -1,0 +1,12 @@
+RewriteEngine On
+
+# Allow direct access to public folder
+RewriteCond %{REQUEST_URI} !^/public/
+
+# Redirect all other requests to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Prevent access to sensitive directories
+RewriteRule ^(config|src|database|views)/ - [F,L]
