@@ -3,7 +3,7 @@
         <div class="grid grid-3 gap-8">
             <div>
                 <a href="/" class="navbar-brand mb-4">
-                    <i class="ph-fill ph-rugby text-2xl text-primary"></i> MALU
+                    <i class="ph-fill ph-rugby text-2xl text-primary"></i> MARU
                 </a>
                 <p class="text-muted text-sm mt-2">
                     Malawi Rugby Union Online Player Registration System. Streamlining the registration process for players, coaches, and administrators.
@@ -31,7 +31,7 @@
         
         <div class="mt-12 pt-6" style="border-top: 1px solid var(--color-border); text-align: center;">
             <p class="text-muted text-xs">
-                &copy; <?= date('Y') ?> Malawi Rugby Union (MALU). All rights reserved.
+                &copy; <?= date('Y') ?> Malawi Rugby Union (MARU). All rights reserved.
             </p>
         </div>
     </div>

@@ -8,19 +8,36 @@ class Router {
         'POST' => []
     ];
 
-    public function get(string $path, string|callable $handler): void {
-        $this->addRoute('GET', $path, $handler);
+    private array $middleware = [];
+
+    public function get(string $path, string|callable $handler, array $middleware = []): void {
+        $this->addRoute('GET', $path, $handler, $middleware);
     }
 
-    public function post(string $path, string|callable $handler): void {
-        $this->addRoute('POST', $path, $handler);
+    public function post(string $path, string|callable $handler, array $middleware = []): void {
+        $this->addRoute('POST', $path, $handler, $middleware);
     }
 
-    private function addRoute(string $method, string $path, string|callable $handler): void {
-        // Convert route parameters like {id} to regex
+    private function addRoute(string $method, string $path, string|callable $handler, array $routeMiddleware = []): void {
         $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[a-zA-Z0-9_-]+)', $path);
         $pattern = "#^" . $pattern . "$#";
         $this->routes[$method][$pattern] = $handler;
+        $this->middleware[$method][$pattern] = $routeMiddleware;
+    }
+
+    private function runMiddleware(array $middleware): void {
+        foreach ($middleware as $m) {
+            if (is_callable($m)) {
+                $m();
+            } elseif (is_string($m)) {
+                $parts = explode(':', $m);
+                $class = "App\\Middleware\\" . $parts[0];
+                $params = isset($parts[1]) ? explode(',', $parts[1]) : [];
+                if (class_exists($class) && method_exists($class, 'handle')) {
+                    $class::handle(...$params);
+                }
+            }
+        }
     }
 
     public function dispatch(): void {
@@ -34,8 +51,11 @@ class Router {
 
         foreach ($this->routes[$method] as $pattern => $handler) {
             if (preg_match($pattern, $path, $matches)) {
-                // Extract named parameters
                 $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
+
+                if (isset($this->middleware[$method][$pattern])) {
+                    $this->runMiddleware($this->middleware[$method][$pattern]);
+                }
 
                 if (is_callable($handler)) {
                     call_user_func_array($handler, $params);

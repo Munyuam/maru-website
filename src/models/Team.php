@@ -18,7 +18,11 @@ class Team
     {
         $db = Database::getConnection();
         $stmt = $db->query("
-            SELECT t.*, u.first_name as coach_first_name, u.last_name as coach_last_name
+            SELECT t.*, 
+                   u.first_name as coach_first_name, 
+                   u.last_name as coach_last_name,
+                   u.avatar as coach_avatar,
+                   (SELECT COUNT(*) FROM players p WHERE p.team_id = t.id) as player_count
             FROM teams t
             LEFT JOIN coaches c ON t.coach_id = c.id
             LEFT JOIN users u ON c.user_id = u.id
@@ -56,18 +60,21 @@ class Team
      * @param array $data The team data
      * @return bool True on success, false on failure
      */
-    public static function create(array $data): bool
+    public static function create(array $data): ?int
     {
         $db = Database::getConnection();
         $stmt = $db->prepare("
-            INSERT INTO teams (name, division)
-            VALUES (:name, :division)
+            INSERT INTO teams (name, division, max_players)
+            VALUES (:name, :division, :max_players)
         ");
 
-        return $stmt->execute([
+        $success = $stmt->execute([
             ':name' => $data['name'],
-            ':division' => $data['division'] ?? null
+            ':division' => $data['division'] ?? null,
+            ':max_players' => $data['max_players'] ?? 30
         ]);
+
+        return $success ? (int)$db->lastInsertId() : null;
     }
 
     /**

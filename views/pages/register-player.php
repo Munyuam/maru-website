@@ -5,7 +5,7 @@
         <p class="auth-subtitle">Join the MARU Rugby Union</p>
         
         <form method="POST" action="/register/player">
-            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token ?? '') ?>">
+            <input type="hidden" name="csrf_token" value="<?= \App\Helpers\Session::generateCsrfToken() ?>">
             
             <h3 class="section-title">Personal Information</h3>
             <div class="grid grid-2">

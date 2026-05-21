@@ -3,7 +3,7 @@
     <section class="hero flex-center flex-col text-center">
         <div class="container animate-slideUp">
             <div class="badge badge-success mb-6 mx-auto inline-block">Official Registration Portal</div>
-            <h1 class="heading-1 mb-4">Welcome to <span class="text-gradient">MALU</span></h1>
+            <h1 class="heading-1 mb-4">Welcome to <span class="text-gradient">MARU</span></h1>
             <p class="text-xl text-secondary mb-8 max-w-2xl mx-auto">The official Online Player Registration System for the Malawi Rugby Union. Join the community, register as a player, and elevate your game.</p>
             <div class="flex flex-center gap-4">
                 <a href="/register/player" class="btn btn-primary btn-lg">Register as Player</a>
@@ -41,7 +41,7 @@
     <section class="features-section py-16 bg-secondary-light">
         <div class="container">
             <div class="text-center mb-12 animate-slideUp">
-                <h2 class="heading-2 mb-4">Why Use the MALU System?</h2>
+                <h2 class="heading-2 mb-4">Why Use the MARU System?</h2>
                 <p class="text-secondary max-w-2xl mx-auto">A modern, streamlined platform designed for players, coaches, and administrators to manage rugby registrations effortlessly.</p>
             </div>
             <div class="features-grid grid grid-3 gap-8">

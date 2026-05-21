@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS users (
 -- Teams
 CREATE TABLE IF NOT EXISTS teams (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    team_name VARCHAR(100) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    division VARCHAR(50),
     description TEXT,
     coach_id INT NULL,
     max_players INT DEFAULT 30,
@@ -59,6 +60,8 @@ CREATE TABLE IF NOT EXISTS coaches (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL UNIQUE,
     team_id INT NULL,
+    phone VARCHAR(20),
+    address TEXT,
     date_of_birth DATE,
     qualification VARCHAR(255),
     years_experience INT DEFAULT 0,
@@ -74,6 +77,7 @@ CREATE TABLE IF NOT EXISTS documents (
     user_id INT NOT NULL,
     document_type ENUM('id_document', 'medical_clearance', 'coaching_cert', 'other') NOT NULL,
     file_name VARCHAR(255) NOT NULL,
+    original_filename VARCHAR(255),
     file_path VARCHAR(255) NOT NULL,
     file_size INT NOT NULL,
     mime_type VARCHAR(100) NOT NULL,

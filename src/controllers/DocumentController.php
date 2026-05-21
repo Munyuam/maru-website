@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Helpers\Session;
 use App\Helpers\FileUpload;
 use App\Models\Document;
-use App\Config\app;
+use App\Config\Database;
 
 class DocumentController
 {
@@ -28,39 +28,42 @@ class DocumentController
 
             $documentType = $_POST['document_type'];
             
-            // Assuming ALLOWED_FILE_TYPES and MAX_FILE_SIZE are global constants defined in config
-            $uploadDir = defined('UPLOAD_DIR') ? UPLOAD_DIR : __DIR__ . '/../../../public/uploads/';
-            $allowedTypes = defined('ALLOWED_FILE_TYPES') ? ALLOWED_FILE_TYPES : ['application/pdf', 'image/jpeg', 'image/png'];
+            $uploadDir = defined('UPLOAD_DIR') ? UPLOAD_DIR : __DIR__ . '/../../public/uploads/';
+            $allowedExtensions = defined('ALLOWED_FILE_TYPES') ? ALLOWED_FILE_TYPES : ['jpg', 'jpeg', 'png', 'pdf'];
             $maxSize = defined('MAX_FILE_SIZE') ? MAX_FILE_SIZE : 5242880;
 
             try {
-                $fileInfo = FileUpload::upload($_FILES['document'], $uploadDir, $allowedTypes, $maxSize);
+                $fileInfo = FileUpload::upload($_FILES['document'], $uploadDir, $allowedExtensions, $maxSize);
                 
-                if ($fileInfo) {
-                    $userId = Session::getUser()['id'] ?? null;
-                    if (!$userId) {
-                        Session::setFlash('error', 'User not authenticated.');
-                        header('Location: /login');
-                        exit;
-                    }
+                if (!$fileInfo['success']) {
+                    Session::setFlash('error', $fileInfo['error'] ?? 'File upload failed.');
+                    header('Location: /player/profile');
+                    exit;
+                }
 
-                    $data = [
-                        'user_id' => $userId,
-                        'document_type' => $documentType,
-                        'file_path' => $fileInfo['path'] ?? $fileInfo['filename'] ?? '',
-                        'original_filename' => $_FILES['document']['name'],
-                        'file_size' => $_FILES['document']['size'],
-                        'mime_type' => $_FILES['document']['type']
-                    ];
-                    
-                    if (Document::create($data)) {
-                        Session::setFlash('success', 'Document uploaded successfully.');
-                    } else {
-                        Session::setFlash('error', 'Database error while saving document record.');
-                    }
+                $userId = Session::getUserId();
+                if (!$userId) {
+                    Session::setFlash('error', 'User not authenticated.');
+                    header('Location: /login');
+                    exit;
+                }
+
+                $data = [
+                    'user_id' => $userId,
+                    'document_type' => $documentType,
+                    'file_path' => $fileInfo['file_path'],
+                    'original_filename' => $fileInfo['file_name'],
+                    'file_size' => $fileInfo['file_size'],
+                    'mime_type' => $fileInfo['mime_type']
+                ];
+                
+                if (Document::create($data)) {
+                    Session::setFlash('success', 'Document uploaded successfully.');
+                } else {
+                    Session::setFlash('error', 'Database error while saving document record.');
                 }
             } catch (\Exception $e) {
-                Session::setFlash('error', $e->getMessage());
+                Session::setFlash('error', 'An error occurred during upload.');
             }
             
             header('Location: /profile');

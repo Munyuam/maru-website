@@ -3,7 +3,7 @@
 namespace App\Helpers;
 
 class FileUpload {
-    public static function upload(array $file, string $directory, array $allowedTypes, int $maxSize): array {
+    public static function upload(array $file, string $directory, array $allowedExtensions, int $maxSize): array {
         if ($file['error'] !== UPLOAD_ERR_OK) {
             return ['success' => false, 'error' => 'File upload error code: ' . $file['error']];
         }
@@ -18,11 +18,6 @@ class FileUpload {
 
         $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-        if (!in_array($extension, $allowedTypes)) {
-             return ['success' => false, 'error' => 'Invalid file type.'];
-        }
-
-        // Validate MIME type against extension loosely here
         $allowedMimes = [
             'jpg' => 'image/jpeg',
             'jpeg' => 'image/jpeg',
@@ -30,8 +25,12 @@ class FileUpload {
             'pdf' => 'application/pdf'
         ];
 
+        if (!in_array($extension, $allowedExtensions)) {
+             return ['success' => false, 'error' => 'Invalid file type.'];
+        }
+
         if (!isset($allowedMimes[$extension]) || $allowedMimes[$extension] !== $mimeType) {
-            return ['success' => false, 'error' => 'MIME type does not match extension.'];
+            return ['success' => false, 'error' => 'File content does not match the declared type.'];
         }
 
         if (!is_dir($directory)) {

@@ -297,6 +297,10 @@ class AuthController
             'first_name' => 'required',
             'last_name' => 'required',
             'phone' => 'required',
+            'date_of_birth' => 'required|date',
+            'qualification' => 'required',
+            'years_experience' => 'required',
+            'coaching_specialty' => 'required',
             'team_id' => 'required'
         ]);
 
@@ -331,6 +335,10 @@ class AuthController
             $coachCreated = Coach::create($userId, [
                 'phone' => $data['phone'],
                 'address' => $_POST['address'] ?? null,
+                'date_of_birth' => $data['date_of_birth'],
+                'qualification' => $data['qualification'],
+                'years_experience' => (int)$data['years_experience'],
+                'coaching_specialty' => $data['coaching_specialty'],
                 'team_id' => $data['team_id']
             ]);
 

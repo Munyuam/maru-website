@@ -69,6 +69,37 @@ class User
     }
 
     /**
+     * Update a user's profile details.
+     *
+     * @param int $id The user ID.
+     * @param array $data The fields to update (first_name, last_name, email, phone, avatar).
+     * @return bool True on success, false on failure.
+     */
+    public static function update(int $id, array $data): bool
+    {
+        $db = Database::getConnection();
+        
+        $allowedFields = ['first_name', 'last_name', 'email', 'phone', 'avatar'];
+        $updates = [];
+        $params = ['id' => $id];
+        
+        foreach ($allowedFields as $field) {
+            if (isset($data[$field])) {
+                $updates[] = "$field = :$field";
+                $params[$field] = $data[$field];
+            }
+        }
+        
+        if (empty($updates)) {
+            return false;
+        }
+        
+        $sql = 'UPDATE users SET ' . implode(', ', $updates) . ' WHERE id = :id';
+        $stmt = $db->prepare($sql);
+        return $stmt->execute($params);
+    }
+
+    /**
      * Update a user's password.
      *
      * @param int $id The user ID.

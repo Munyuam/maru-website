@@ -2,7 +2,7 @@
 $errors = $errors ?? [];
 ?>
 <form method="POST" action="/login">
-    <input type="hidden" name="csrf_token" value="<?= App\Helpers\Session::generateCsrfToken() ?>">
+    <input type="hidden" name="csrf_token" value="<?= \App\Helpers\Session::generateCsrfToken() ?>">
     
     <?php if (!empty($errors)): ?>
         <div style="color: red; margin-bottom: 1rem;">

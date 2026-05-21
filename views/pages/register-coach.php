@@ -13,6 +13,7 @@
         <?php endif; ?>
 
         <form action="/register/coach" method="POST" class="auth-form">
+            <input type="hidden" name="csrf_token" value="<?= \App\Helpers\Session::generateCsrfToken() ?>">
             <div class="form-section">
                 <h3 class="section-title">Personal Information</h3>
                 <div class="form-row">

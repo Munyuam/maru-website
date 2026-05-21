@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MALU Online Player Registration System - Register players for Malawi Rugby Union">
-    <title><?= $pageTitle ?? 'MALU Player Registration' ?></title>
+    <meta name="description" content="MARU Online Player Registration System - Register players for Malawi Rugby Union">
+    <title><?= $pageTitle ?? 'MARU Player Registration' ?></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/public/css/design-system.css">
     <link rel="stylesheet" href="/public/css/components.css">
     <link rel="stylesheet" href="/public/css/pages.css">
+    <link rel="stylesheet" href="/public/css/admin.css">
     <script>
         // Check for saved user preference, if any, on load of the website
         let theme = localStorage.getItem('theme');

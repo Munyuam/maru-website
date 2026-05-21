@@ -37,6 +37,10 @@ class Session {
         $_SESSION['flash'][$key] = $value;
     }
 
+    public static function setFlash(string $key, mixed $value): void {
+        self::flash($key, $value);
+    }
+
     public static function getFlash(string $key): mixed {
         if (isset($_SESSION['flash'][$key])) {
             $value = $_SESSION['flash'][$key];
@@ -72,6 +76,11 @@ class Session {
     public static function getUserRole(): ?string {
         $user = self::getUser();
         return $user['role'] ?? null;
+    }
+
+    public static function getUserId(): ?int {
+        $user = self::getUser();
+        return isset($user['id']) ? (int)$user['id'] : null;
     }
 
     public static function destroy(): void {

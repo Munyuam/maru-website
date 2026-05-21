@@ -42,14 +42,14 @@ class Document
     public static function getPending(): array
     {
         $db = Database::getConnection();
-        $stmt = $db->query("SELECT d.*, u.first_name, u.last_name FROM documents d JOIN users u ON d.user_id = u.id WHERE d.verification_status = 'pending' ORDER BY d.uploaded_at ASC");
+        $stmt = $db->query("SELECT d.*, u.first_name, u.last_name, p.id as player_id FROM documents d JOIN users u ON d.user_id = u.id LEFT JOIN players p ON p.user_id = u.id WHERE d.verification_status = 'pending' ORDER BY d.uploaded_at ASC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function updateStatus(int $id, string $status, ?int $verifiedBy = null, ?string $notes = null): bool
     {
         $db = Database::getConnection();
-        $stmt = $db->prepare("UPDATE documents SET verification_status = :status, verified_by = :verified_by, verification_notes = :notes, verified_at = NOW() WHERE id = :id");
+        $stmt = $db->prepare("UPDATE documents SET verification_status = :status, verified_by = :verified_by, notes = :notes, verified_at = NOW() WHERE id = :id");
         return $stmt->execute([
             'status' => $status,
             'verified_by' => $verifiedBy,

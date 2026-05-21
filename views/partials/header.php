@@ -8,7 +8,7 @@ $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 <header class="navbar">
     <div class="container">
         <a href="/" class="navbar-brand">
-            <i class="ph-fill ph-rugby text-2xl text-primary"></i> MALU
+            <i class="ph-fill ph-rugby text-2xl text-primary"></i> MARU
         </a>
         
         <button class="nav-toggle" id="mobile-menu-btn">

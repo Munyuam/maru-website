@@ -20,7 +20,7 @@ class AuthMiddleware
     public static function handle(): void
     {
         if (!Session::isLoggedIn()) {
-            Session::setFlash('error', 'Please log in to continue');
+            Session::flash('error', 'Please log in to continue');
             header('Location: /login');
             exit;
         }

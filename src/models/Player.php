@@ -32,6 +32,27 @@ class Player
     }
 
     /**
+     * Find a player by their player ID, including user details
+     */
+    public static function findById(int $id): ?array
+    {
+        $db = Database::getConnection();
+
+        $sql = "SELECT p.*, u.email, u.first_name, u.last_name, u.is_active,
+                       t.name as team_name
+                FROM players p
+                JOIN users u ON p.user_id = u.id
+                LEFT JOIN teams t ON p.team_id = t.id
+                WHERE p.id = :id";
+
+        $stmt = $db->prepare($sql);
+        $stmt->execute([':id' => $id]);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result ?: null;
+    }
+
+    /**
      * Find a player by their user ID, including user details
      */
     public static function findByUserId(int $userId): ?array
@@ -39,7 +60,7 @@ class Player
         $db = Database::getConnection();
         
         $sql = "SELECT p.*, u.email, u.first_name, u.last_name, u.is_active,
-                       t.name as team_name, t.category as team_category
+                       t.name as team_name
                 FROM players p
                 JOIN users u ON p.user_id = u.id
                 LEFT JOIN teams t ON p.team_id = t.id
@@ -62,7 +83,7 @@ class Player
         $fields = [];
         $params = [':id' => $playerId];
         
-        $allowedFields = ['team_id', 'date_of_birth', 'gender', 'nationality', 'phone', 'position'];
+        $allowedFields = ['team_id', 'date_of_birth', 'gender', 'nationality', 'phone', 'position', 'registration_status', 'registration_notes'];
         
         foreach ($allowedFields as $field) {
             if (array_key_exists($field, $data)) {
@@ -108,7 +129,7 @@ class Player
         
         $whereClause = !empty($where) ? "WHERE " . implode(" AND ", $where) : "";
         
-        $sql = "SELECT p.*, u.first_name, u.last_name, u.email, t.name as team_name
+        $sql = "SELECT p.*, u.first_name, u.last_name, u.email, u.avatar, t.name as team_name
                 FROM players p
                 JOIN users u ON p.user_id = u.id
                 LEFT JOIN teams t ON p.team_id = t.id

@@ -13,7 +13,7 @@ INSERT INTO users (email, password, role, first_name, last_name, phone, is_activ
 ('coach.bulls@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'coach', 'Peter', 'Phiri', '+265999654321', 1);
 
 -- Insert Teams
-INSERT INTO teams (team_name, description, coach_id, is_active) VALUES
+INSERT INTO teams (name, description, coach_id, is_active) VALUES
 ('Lilongwe Lions', 'Premier rugby team based in Lilongwe.', 2, 1),
 ('Blantyre Bulls', 'Competitive team from Blantyre.', 3, 1),
 ('Zomba Zebras', 'Emerging talent from Zomba region.', NULL, 1);

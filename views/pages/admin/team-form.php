@@ -1,25 +1,21 @@
-<?php 
-$pageTitle = 'Create Team';
-include __DIR__ . '/../../layouts/admin.php'; 
-?>
-
 <div class="page-header mb-5">
     <div class="flex items-center gap-3">
-        <a href="/admin/teams" class="btn btn-sm btn-light text-muted hover-bg-light rounded-pill px-3 shadow-sm"><i class="fas fa-arrow-left mr-1"></i> Back to Teams</a>
+        <a href="/admin/teams" class="btn btn-sm btn-light text-muted hover-bg-light rounded-pill px-3 shadow-sm"><i class="ph ph-arrow-left mr-1"></i> Back to Teams</a>
     </div>
 </div>
 
 <div class="card max-w-2xl mx-auto shadow-lg border-0 rounded-xl overflow-hidden">
     <div class="card-header bg-white border-bottom py-4 px-5">
-        <h2 class="text-2xl font-bold m-0"><i class="fas fa-users-cog text-primary mr-2"></i> Create New Team</h2>
+        <h2 class="text-2xl font-bold m-0"><i class="ph ph-gear text-primary mr-2"></i> Create New Team</h2>
         <p class="text-muted m-0 mt-1 text-sm">Set up a new team profile and assign staff.</p>
     </div>
     <div class="card-body p-5">
         <form action="/admin/teams/create" method="POST">
+            <input type="hidden" name="csrf_token" value="<?= \App\Helpers\Session::generateCsrfToken() ?>">
             <div class="grid grid-2 gap-x-5 gap-y-4 mb-4">
                 <div class="form-group col-span-2 mb-2">
                     <label for="team_name" class="font-bold text-dark text-sm uppercase tracking-wider mb-2 d-block">Team Name <span class="text-danger">*</span></label>
-                    <input type="text" id="team_name" name="team_name" class="form-control form-control-lg bg-light border-0 rounded-lg px-4" required placeholder="e.g. Dragons, Tigers, Eagles...">
+                    <input type="text" id="name" name="name" class="form-control form-control-lg bg-light border-0 rounded-lg px-4" required placeholder="e.g. Dragons, Tigers, Eagles...">
                 </div>
                 
                 <div class="form-group mb-2">
@@ -43,10 +39,13 @@ include __DIR__ . '/../../layouts/admin.php';
                     <label for="coach_id" class="font-bold text-dark text-sm uppercase tracking-wider mb-2 d-block">Assign Head Coach</label>
                     <select id="coach_id" name="coach_id" class="form-control form-control-lg bg-light border-0 rounded-lg px-4">
                         <option value="">-- No Coach Assigned Yet --</option>
-                        <option value="1">Coach Smith (Available)</option>
-                        <option value="2">Emily Jones (Available)</option>
+                        <?php if (!empty($coaches)): ?>
+                            <?php foreach ($coaches as $c): ?>
+                                <option value="<?= $c['id'] ?>"><?= htmlspecialchars(($c['first_name'] ?? '') . ' ' . ($c['last_name'] ?? '')) ?> <?= $c['registration_status'] === 'approved' ? '(Available)' : '(Pending)' ?></option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </select>
-                    <small class="form-text text-muted mt-2"><i class="fas fa-info-circle mr-1"></i> You can skip this and assign a coach later.</small>
+                    <small class="form-text text-muted mt-2"><i class="ph ph-info mr-1"></i> You can skip this and assign a coach later.</small>
                 </div>
                 
                 <div class="form-group col-span-2 mb-2 pt-2 border-top border-light mt-2">
@@ -66,7 +65,7 @@ include __DIR__ . '/../../layouts/admin.php';
             
             <div class="border-top border-light pt-4 mt-5 flex justify-end gap-3 bg-white">
                 <a href="/admin/teams" class="btn btn-light text-dark font-medium rounded-pill px-5 py-2">Cancel</a>
-                <button type="submit" class="btn btn-primary font-bold rounded-pill px-5 py-2 shadow-md hover-shadow-lg transition">Create Team <i class="fas fa-check ml-2"></i></button>
+                <button type="submit" class="btn btn-primary font-bold rounded-pill px-5 py-2 shadow-md hover-shadow-lg transition">Create Team <i class="ph ph-check ml-2"></i></button>
             </div>
         </form>
     </div>

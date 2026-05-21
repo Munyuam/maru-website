@@ -38,7 +38,13 @@ class PlayerController
      */
     public function showProfile(): void
     {
-        $player = $this->requirePlayerProfile();
+        if (!Session::isLoggedIn() || Session::getUserRole() !== 'player') {
+            header('Location: /login');
+            exit;
+        }
+
+        $userId = Session::getUserId();
+        $player = Player::findByUserId($userId);
         $pageTitle = 'My Profile - MARU';
 
         ob_start();

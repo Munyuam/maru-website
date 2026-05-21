@@ -8,9 +8,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>let theme=localStorage.getItem('theme');if(!theme){theme=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',theme);</script>
     <link rel="stylesheet" href="/public/css/design-system.css">
     <link rel="stylesheet" href="/public/css/components.css">
     <link rel="stylesheet" href="/public/css/pages.css">
+    <link rel="stylesheet" href="/public/css/admin.css">
 </head>
 <body>
     <div class="dashboard-layout">
@@ -19,9 +21,6 @@
         <div class="dashboard-content">
             <header class="dashboard-topbar">
                 <div class="heading-4"><?= $pageTitle ?? 'Dashboard' ?></div>
-                <div class="flex items-center gap-4">
-                    <div class="avatar avatar-sm">A</div>
-                </div>
             </header>
             
             <main class="dashboard-main">

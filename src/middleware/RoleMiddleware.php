@@ -27,7 +27,7 @@ class RoleMiddleware
 
         // Check if the user's role is in the list of allowed roles
         if (!in_array($userRole, $allowedRoles, true)) {
-            Session::setFlash('error', 'Unauthorized access');
+            Session::flash('error', 'Unauthorized access');
             
             // Redirect based on actual role
             switch ($userRole) {
