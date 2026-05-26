@@ -1,0 +1,38 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Composer dependencies
+vendor/
+composer.phar
+
+# Node modules (if applicable)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# User Uploads
+# Ignore all files inside the uploads directory but you can keep the directory itself
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# Application logs
+*.log
