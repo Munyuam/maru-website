@@ -22,18 +22,21 @@
 }
 
 /* Login Wrapper & Elements */
-.login-wrapper, .register-wrapper {
+.login-wrapper,
+.register-wrapper {
     width: 100%;
     text-align: center;
 }
 
-.login-logo-wrapper, .register-logo-wrapper {
+.login-logo-wrapper,
+.register-logo-wrapper {
     margin-bottom: 2rem;
 }
 
-.login-logo-circle, .register-logo-circle {
-    width: 180px;
-    height: 180px;
+.login-logo-circle,
+.register-logo-circle {
+    width: 300px;
+    height: 300px;
     background: #ffffff;
     border-radius: 50%;
     display: flex;
@@ -46,14 +49,16 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.login-logo-circle:hover, .register-logo-circle:hover {
-    transform: scale(1.05);
+.login-logo-circle:hover,
+.register-logo-circle:hover {
+    transform: scale(1.02);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
-.login-logo-img, .register-logo-img {
-    width: 150px;
-    height: 150px;
+.login-logo-img,
+.register-logo-img {
+    width: 350px;
+    height: 350px;
     object-fit: contain;
 }
 
@@ -69,7 +74,8 @@
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
-.login-form, .register-form-box {
+.login-form,
+.register-form-box {
     width: 100%;
     text-align: left;
 }
@@ -105,7 +111,7 @@
     padding: 0.75rem 1rem !important;
     font-size: 1rem !important;
     height: auto !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02) inset;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02) inset;
     width: 100%;
     box-sizing: border-box;
 }
@@ -125,7 +131,8 @@
     margin-bottom: 1.5rem;
 }
 
-.btn-login-submit, .btn-forgot {
+.btn-login-submit,
+.btn-forgot {
     background: #ffffff !important;
     color: #000000 !important;
     font-family: var(--font-serif), Georgia, serif;
@@ -143,13 +150,15 @@
     width: auto !important;
 }
 
-.btn-login-submit:hover, .btn-forgot:hover {
+.btn-login-submit:hover,
+.btn-forgot:hover {
     background: #f1f5f9 !important;
     transform: translateY(-2px);
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
-.btn-login-submit:active, .btn-forgot:active {
+.btn-login-submit:active,
+.btn-forgot:active {
     transform: translateY(0);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }

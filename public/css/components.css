@@ -23,6 +23,7 @@
     background-color: var(--color-primary);
     color: #ffffff;
 }
+
 .btn-primary:hover {
     background-color: var(--color-primary-hover);
 }
@@ -31,6 +32,7 @@
     background-color: var(--color-secondary);
     color: #ffffff;
 }
+
 .btn-secondary:hover {
     background-color: var(--color-secondary-hover);
 }
@@ -40,6 +42,7 @@
     border-color: var(--color-border);
     color: var(--color-text-primary);
 }
+
 .btn-outline:hover {
     border-color: var(--color-primary);
     color: var(--color-primary);
@@ -51,6 +54,7 @@
     border-color: var(--color-border);
     color: var(--color-error);
 }
+
 .btn-danger:hover {
     background-color: var(--color-error);
     color: #ffffff;
@@ -61,6 +65,7 @@
     background-color: transparent;
     color: var(--color-text-secondary);
 }
+
 .btn-ghost:hover {
     background-color: var(--color-bg-tertiary);
     color: var(--color-text-primary);
@@ -68,10 +73,9 @@
 
 /* Cards */
 .card {
-    background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
+    /* background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border); */
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
     overflow: hidden;
 }
 
@@ -80,13 +84,19 @@
     border-bottom: 1px solid var(--color-border);
     background-color: var(--color-bg-tertiary);
 }
+
 .card-body {
     padding: 1.5rem;
 }
+
 .card-footer {
     padding: 1.25rem 1.5rem;
     border-top: 1px solid var(--color-border);
     background-color: var(--color-bg-tertiary);
+}
+
+.auth-card {
+    max-width: 1000px;
 }
 
 /* Forms */
@@ -102,7 +112,9 @@
     font-weight: 500;
 }
 
-.form-input, .form-select, .form-textarea {
+.form-input,
+.form-select,
+.form-textarea {
     width: 100%;
     background-color: var(--color-bg-primary);
     border: 1px solid var(--color-border);
@@ -114,7 +126,9 @@
     font-family: var(--font-sans);
 }
 
-.form-input:focus, .form-select:focus, .form-textarea:focus {
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
     outline: none;
     border-color: var(--color-primary);
 }
@@ -143,10 +157,25 @@
     letter-spacing: 0.05em;
 }
 
-.badge-success { background-color: var(--color-primary-light); color: var(--color-success); }
-.badge-warning { background-color: rgba(234,179,8,0.1); color: var(--color-warning); }
-.badge-error { background-color: rgba(239,68,68,0.1); color: var(--color-error); }
-.badge-info { background-color: rgba(59,130,246,0.1); color: var(--color-info); }
+.badge-success {
+    background-color: var(--color-primary-light);
+    color: var(--color-success);
+}
+
+.badge-warning {
+    background-color: rgba(234, 179, 8, 0.1);
+    color: var(--color-warning);
+}
+
+.badge-error {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--color-error);
+}
+
+.badge-info {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: var(--color-info);
+}
 
 /* Tables */
 .table-container {
@@ -186,17 +215,45 @@
 
 /* Alerts */
 .alert {
-    padding: 1rem;
+    padding: 1rem 1.5rem;
     border-radius: var(--radius-md);
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
-    font-size: 0.875rem;
-    border: 1px solid transparent;
+    font-size: 0.95rem;
+    font-weight: 600;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    border-left: 6px solid transparent;
+    letter-spacing: 0.02em;
 }
 
-.alert-success { background-color: var(--color-primary-light); border-color: var(--color-success); color: var(--color-text-primary); }
-.alert-error { background-color: rgba(239,68,68,0.1); border-color: var(--color-error); color: var(--color-text-primary); }
+.alert p {
+    margin: 0;
+    line-height: 1.4;
+}
+
+.alert-success {
+    border-left-color: #22c55e;
+    /* Bright Green */
+}
+
+.alert-error,
+.alert-danger {
+    border-left-color: #f97316;
+    /* Bright Orange */
+}
+
+.alert-warning {
+    border-left-color: #f59e0b;
+    /* Bright Amber */
+}
+
+.alert-info {
+    border-left-color: #3b82f6;
+    /* Bright Blue */
+}
 
 /* Avatars */
 .avatar {
@@ -210,6 +267,21 @@
     font-weight: 600;
     overflow: hidden;
 }
-.avatar-sm { width: 32px; height: 32px; font-size: 0.75rem; }
-.avatar-md { width: 40px; height: 40px; font-size: 0.875rem; }
-.avatar-lg { width: 56px; height: 56px; font-size: 1.25rem; }
+
+.avatar-sm {
+    width: 32px;
+    height: 32px;
+    font-size: 0.75rem;
+}
+
+.avatar-md {
+    width: 40px;
+    height: 40px;
+    font-size: 0.875rem;
+}
+
+.avatar-lg {
+    width: 56px;
+    height: 56px;
+    font-size: 1.25rem;
+}

@@ -81,7 +81,7 @@
 }
 
 .welcome-logo-circle:hover {
-    transform: scale(1.05);
+    transform: scale(1.00);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
