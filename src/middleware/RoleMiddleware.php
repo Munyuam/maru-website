@@ -32,16 +32,16 @@ class RoleMiddleware
             // Redirect based on actual role
             switch ($userRole) {
                 case 'admin':
-                    header('Location: /admin');
+                    header('Location: ' . url('/admin'));
                     break;
                 case 'player':
-                    header('Location: /player/profile');
+                    header('Location: ' . url('/player/profile'));
                     break;
                 case 'coach':
-                    header('Location: /coach/team');
+                    header('Location: ' . url('/coach/team'));
                     break;
                 default:
-                    header('Location: /');
+                    header('Location: ' . url('/'));
                     break;
             }
             

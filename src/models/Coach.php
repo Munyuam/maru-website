@@ -46,7 +46,7 @@ class Coach
     {
         $db = Database::getConnection();
         $stmt = $db->prepare("
-            SELECT c.*, u.first_name, u.last_name, u.email, t.name as team_name
+            SELECT c.*, u.first_name, u.last_name, u.email, u.phone, u.avatar, t.name as team_name
             FROM coaches c
             JOIN users u ON c.user_id = u.id
             LEFT JOIN teams t ON c.team_id = t.id
@@ -67,7 +67,7 @@ class Coach
     {
         $db = Database::getConnection();
         $stmt = $db->prepare("
-            SELECT c.*, u.first_name, u.last_name, u.email, t.name as team_name
+            SELECT c.*, u.first_name, u.last_name, u.email, u.phone, u.avatar, t.name as team_name
             FROM coaches c
             JOIN users u ON c.user_id = u.id
             LEFT JOIN teams t ON c.team_id = t.id

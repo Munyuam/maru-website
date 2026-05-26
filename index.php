@@ -42,6 +42,7 @@ $router = new Router();
 
 // Public routes
 $router->get('/', 'PageController@welcome');
+$router->get('/post/{id}', 'PageController@showPost');
 $router->get('/login', 'AuthController@showLogin');
 $router->post('/login', 'AuthController@login');
 $router->get('/register', 'AuthController@showRegister');
@@ -56,6 +57,7 @@ $router->get('/player/profile', 'PlayerController@showProfile', ['AuthMiddleware
 $router->get('/player/profile/edit', 'PlayerController@editProfile', ['AuthMiddleware']);
 $router->post('/player/profile/edit', 'PlayerController@updateProfile', ['AuthMiddleware']);
 $router->get('/player/status', 'PlayerController@showStatus', ['AuthMiddleware']);
+$router->get('/player/announcements', 'PlayerController@announcements', ['AuthMiddleware']);
 $router->post('/player/documents/upload', 'DocumentController@upload', ['AuthMiddleware']);
 
 // Coach routes (auth required)
@@ -63,6 +65,8 @@ $router->get('/coach/profile', 'CoachController@showProfile', ['AuthMiddleware',
 $router->get('/coach/edit', 'CoachController@editProfile', ['AuthMiddleware', 'RoleMiddleware:coach']);
 $router->post('/coach/edit', 'CoachController@updateProfile', ['AuthMiddleware', 'RoleMiddleware:coach']);
 $router->get('/coach/team', 'CoachController@showTeam', ['AuthMiddleware', 'RoleMiddleware:coach']);
+$router->get('/coach/player/{id}', 'CoachController@showPlayer', ['AuthMiddleware', 'RoleMiddleware:coach']);
+$router->get('/coach/announcements', 'CoachController@announcements', ['AuthMiddleware', 'RoleMiddleware:coach']);
 
 // Admin routes (admin only)
 $router->get('/admin', 'AdminController@dashboard', ['AuthMiddleware', 'RoleMiddleware:admin']);
@@ -91,6 +95,13 @@ $router->post('/admin/notifications/send', 'AdminController@sendNotification', [
 $router->get('/admin/announcements', 'AdminController@announcements', ['AuthMiddleware', 'RoleMiddleware:admin']);
 $router->get('/admin/announcements/create', 'AdminController@createAnnouncementForm', ['AuthMiddleware', 'RoleMiddleware:admin']);
 $router->post('/admin/announcements/create', 'AdminController@createAnnouncement', ['AuthMiddleware', 'RoleMiddleware:admin']);
+$router->get('/admin/posts', 'AdminController@posts', ['AuthMiddleware', 'RoleMiddleware:admin']);
+$router->get('/admin/posts/create', 'AdminController@createPostForm', ['AuthMiddleware', 'RoleMiddleware:admin']);
+$router->post('/admin/posts/create', 'AdminController@createPost', ['AuthMiddleware', 'RoleMiddleware:admin']);
+$router->get('/admin/posts/edit/{id}', 'AdminController@editPostForm', ['AuthMiddleware', 'RoleMiddleware:admin']);
+$router->post('/admin/posts/edit/{id}', 'AdminController@updatePost', ['AuthMiddleware', 'RoleMiddleware:admin']);
+$router->post('/admin/posts/delete/{id}', 'AdminController@deletePost', ['AuthMiddleware', 'RoleMiddleware:admin']);
+$router->post('/admin/posts/toggle/{id}', 'AdminController@togglePost', ['AuthMiddleware', 'RoleMiddleware:admin']);
 
 // Dispatch the router
 $router->dispatch();

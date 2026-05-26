@@ -1,6 +1,6 @@
 <div class="page-header mb-4">
     <div class="flex items-center gap-3">
-        <a href="/admin/players" class="btn btn-sm btn-light text-muted hover-bg-light rounded-pill px-3 shadow-sm"><i class="ph ph-arrow-left mr-1"></i> Back to Players</a>
+        <a  href="<?= url('/admin/players') ?>"  class="btn btn-sm btn-light text-muted hover-bg-light rounded-pill px-3 shadow-sm"><i class="ph ph-arrow-left mr-1"></i> Back to Players</a>
     </div>
 </div>
 
@@ -10,7 +10,7 @@
         <p class="text-muted m-0 mt-1 text-sm">Register a player manually.</p>
     </div>
     <div class="card-body p-5">
-        <form action="/admin/players/create" method="POST">
+        <form  action="<?= url('/admin/players/create') ?>"  method="POST">
             <input type="hidden" name="csrf_token" value="<?= \App\Helpers\Session::generateCsrfToken() ?>">
             <div class="grid grid-2 gap-x-5 gap-y-4 mb-4">
                 <div class="form-group">
@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="border-top border-light pt-4 mt-5 flex justify-end gap-3">
-                <a href="/admin/players" class="btn btn-light text-dark font-medium rounded-pill px-5 py-2">Cancel</a>
+                <a  href="<?= url('/admin/players') ?>"  class="btn btn-light text-dark font-medium rounded-pill px-5 py-2">Cancel</a>
                 <button type="submit" class="btn btn-primary font-bold rounded-pill px-5 py-2 shadow-md">Create Player <i class="ph ph-check ml-2"></i></button>
             </div>
         </form>

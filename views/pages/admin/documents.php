@@ -49,7 +49,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <a href="/admin/players/<?= htmlspecialchars($doc['player_id'] ?? $doc['user_id']) ?>" class="text-dark font-bold hover-text-primary transition d-flex items-center">
+                                    <a  href="<?= url('/admin/players/' . htmlspecialchars($doc['player_id'] ?? $doc['user_id'])) ?>"  class="text-dark font-bold hover-text-primary transition d-flex items-center">
                                         <div class="avatar avatar-sm bg-primary text-white rounded-circle mr-2 flex items-center justify-center text-xs" style="width:24px;height:24px;">P</div>
                                         Player #<?= htmlspecialchars($doc['player_id'] ?? $doc['user_id']) ?>
                                     </a>
@@ -64,7 +64,7 @@
                                 </td>
                                 <td class="text-right pr-5">
                                     <?php if (($doc['verification_status'] ?? 'pending') === 'pending'): ?>
-                                        <form action="/admin/documents/<?= $doc['id'] ?>/verify" method="POST" class="inline-flex items-center gap-2">
+                                        <form  action="<?= url('/admin/documents/' . $doc['id'] . '/verify') ?>"  method="POST" class="inline-flex items-center gap-2">
                                             <input type="hidden" name="csrf_token" value="<?= \App\Helpers\Session::generateCsrfToken() ?>">
                                             <input type="text" name="notes" placeholder="Notes (optional)" class="form-control form-control-sm border-0 bg-white shadow-sm rounded-pill px-3 text-sm" style="width: 150px;">
                                             <button type="submit" name="status" value="verified" class="btn btn-success text-white rounded-pill px-3 py-1 shadow-sm font-medium hover-shadow transition text-sm">Verify</button>

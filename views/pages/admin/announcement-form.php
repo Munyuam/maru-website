@@ -1,6 +1,6 @@
 <div class="page-header mb-4">
     <div class="flex items-center gap-3">
-        <a href="/admin/announcements" class="btn btn-sm btn-light text-muted hover-bg-light rounded-pill px-3 shadow-sm">
+        <a  href="<?= url('/admin/announcements') ?>"  class="btn btn-sm btn-light text-muted hover-bg-light rounded-pill px-3 shadow-sm">
             <i class="ph ph-arrow-left mr-1"></i> Back to Announcements
         </a>
     </div>
@@ -11,7 +11,7 @@
         <h2 class="text-lg font-bold m-0"><i class="ph ph-megaphone text-primary mr-2"></i> New Announcement</h2>
     </div>
     <div class="card-body p-4">
-        <form action="/admin/announcements/create" method="POST">
+        <form  action="<?= url('/admin/announcements/create') ?>"  method="POST">
             <div class="form-group mb-4">
                 <label for="title" class="form-label font-bold text-sm uppercase tracking-wider">Title</label>
                 <input type="text" id="title" name="title" class="form-input" required placeholder="e.g. Upcoming Tournament Registration">
@@ -27,12 +27,40 @@
             </div>
 
             <div class="form-group mb-4">
+                <label class="form-label font-bold text-sm uppercase tracking-wider">Target Audience</label>
+                <div class="flex items-center gap-4 mb-3">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="target_type" value="all" checked onchange="toggleTeamSelect()">
+                        All Users
+                    </label>
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="radio" name="target_type" value="team" onchange="toggleTeamSelect()">
+                        Specific Team
+                    </label>
+                </div>
+                <select id="target_id" name="target_id" class="form-input" disabled>
+                    <option value="">-- Select Team --</option>
+                    <?php foreach ($teams as $team): ?>
+                        <option value="<?= $team['id'] ?>"><?= htmlspecialchars($team['name']) ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <script>
+            function toggleTeamSelect() {
+                var teamSelect = document.getElementById('target_id');
+                teamSelect.disabled = !document.querySelector('input[name="target_type"][value="team"]:checked');
+                if (teamSelect.disabled) teamSelect.value = '';
+            }
+            </script>
+
+            <div class="form-group mb-4">
                 <label for="message" class="form-label font-bold text-sm uppercase tracking-wider">Message</label>
                 <textarea id="message" name="message" class="form-input" rows="6" required placeholder="Write your announcement here..."></textarea>
             </div>
 
             <div class="flex justify-end gap-3 pt-3 border-top">
-                <a href="/admin/announcements" class="btn btn-ghost">Cancel</a>
+                <a  href="<?= url('/admin/announcements') ?>"  class="btn btn-ghost">Cancel</a>
                 <button type="submit" class="btn btn-primary rounded-pill px-4 shadow-sm">Publish Announcement</button>
             </div>
         </form>

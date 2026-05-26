@@ -9,10 +9,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link rel="stylesheet" href="/public/css/design-system.css">
-    <link rel="stylesheet" href="/public/css/components.css">
-    <link rel="stylesheet" href="/public/css/pages.css">
-    <link rel="stylesheet" href="/public/css/admin.css">
+    <link rel="stylesheet" href="<?= url('/public/css/design-system.css') ?>">
+    <link rel="stylesheet" href="<?= url('/public/css/components.css') ?>">
+    <link rel="stylesheet" href="<?= url('/public/css/pages.css') ?>">
+    <link rel="stylesheet" href="<?= url('/public/css/admin.css') ?>">
     <script>
         // Check for saved user preference, if any, on load of the website
         let theme = localStorage.getItem('theme');
@@ -23,19 +23,23 @@
     </script>
 </head>
 <body>
-    <?php include __DIR__ . '/../partials/header.php'; ?>
+    <?php if (!isset($hideHeader) || !$hideHeader): ?>
+        <?php include __DIR__ . '/../partials/header.php'; ?>
+    <?php endif; ?>
     
     <main>
         <?php include __DIR__ . '/../partials/alerts.php'; ?>
         <?= $content ?? '' ?>
     </main>
     
-    <?php include __DIR__ . '/../partials/footer.php'; ?>
+    <?php if (!isset($hideFooter) || !$hideFooter): ?>
+        <?php include __DIR__ . '/../partials/footer.php'; ?>
+    <?php endif; ?>
     
-    <script src="/public/js/app.js"></script>
+    <script src="<?= url('/public/js/app.js') ?>"></script>
     <?php if (isset($scripts)): ?>
         <?php foreach ($scripts as $script): ?>
-            <script src="<?= $script ?>"></script>
+            <script src="<?= url($script) ?>"></script>
         <?php endforeach; ?>
     <?php endif; ?>
 </body>

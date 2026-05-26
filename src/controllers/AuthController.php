@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use App\Helpers\FileUpload;
 use App\Helpers\Session;
 use App\Helpers\Validator;
 use App\Models\User;
@@ -22,13 +23,12 @@ class AuthController
     private function redirectBasedOnRole(?string $role): void
     {
         if ($role === 'admin') {
-            header('Location: /admin');
+            redirect('/admin');
         } elseif ($role === 'coach') {
-            header('Location: /coach/team');
+            redirect('/coach/team');
         } else {
-            header('Location: /player/profile');
+            redirect('/player/profile');
         }
-        exit;
     }
 
     /**
@@ -53,16 +53,14 @@ class AuthController
     public function login(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /login');
-            exit;
+            redirect('/login');
         }
 
         // Validate CSRF token
         $csrf = $_POST['csrf_token'] ?? '';
         if (!Session::validateCsrfToken($csrf)) {
             Session::flash('error', 'Invalid security token. Please try again.');
-            header('Location: /login');
-            exit;
+            redirect('/login');
         }
 
         // Validate inputs
@@ -75,8 +73,7 @@ class AuthController
         if ($validator->hasErrors()) {
             Session::flash('errors', $validator->errors());
             Session::flash('old', $_POST);
-            header('Location: /login');
-            exit;
+            redirect('/login');
         }
 
         $data = $validator->validated();
@@ -104,14 +101,12 @@ class AuthController
                 $this->redirectBasedOnRole($user['role'] ?? null);
             } else {
                 Session::flash('error', 'Your account is currently inactive.');
-                header('Location: /login');
-                exit;
+                redirect('/login');
             }
         }
 
         Session::flash('error', 'Invalid email or password.');
-        header('Location: /login');
-        exit;
+        redirect('/login');
     }
 
     /**
@@ -138,16 +133,14 @@ class AuthController
         // Validate CSRF token for logout
         $csrf = $_POST['csrf_token'] ?? '';
         if (!Session::validateCsrfToken($csrf)) {
-            header('Location: /');
-            exit;
+            redirect('/');
         }
 
         // Destroy session
         Session::destroy();
         
         // Redirect to /login
-        header('Location: /login');
-        exit;
+        redirect('/login');
     }
 
     /**
@@ -172,7 +165,7 @@ class AuthController
     public function registerPlayer(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /register/player');
+            header('Location: ' . url('/register/player'));
             exit;
         }
 
@@ -180,7 +173,7 @@ class AuthController
         $csrf = $_POST['csrf_token'] ?? '';
         if (!Session::validateCsrfToken($csrf)) {
             Session::flash('error', 'Invalid security token. Please try again.');
-            header('Location: /register/player');
+            header('Location: ' . url('/register/player'));
             exit;
         }
 
@@ -200,7 +193,7 @@ class AuthController
         if ($validator->hasErrors()) {
             Session::flash('errors', $validator->errors());
             Session::flash('old', $_POST);
-            header('Location: /register/player');
+            header('Location: ' . url('/register/player'));
             exit;
         }
 
@@ -210,18 +203,38 @@ class AuthController
         if (User::findByEmail($data['email'])) {
             Session::flash('error', 'Email is already registered.');
             Session::flash('old', $_POST);
-            header('Location: /register/player');
+            header('Location: ' . url('/register/player'));
             exit;
         }
 
+        // Handle avatar upload
+        $avatarPath = null;
+        if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = UPLOAD_DIR . '/avatars';
+            $result = FileUpload::upload($_FILES['avatar'], $uploadDir, ['jpg', 'jpeg', 'png'], MAX_FILE_SIZE);
+            if ($result['success']) {
+                $avatarPath = $result['file_path'];
+            } else {
+                Session::flash('error', 'Avatar upload failed: ' . $result['error']);
+                Session::flash('old', $_POST);
+                header('Location: ' . url('/register/player'));
+                exit;
+            }
+        }
+
         // Create User
-        $userId = User::create([
+        $userData = [
             'email' => $data['email'],
             'password' => $data['password'],
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
+            'phone' => $data['phone'],
             'role' => 'player'
-        ]);
+        ];
+        if ($avatarPath) {
+            $userData['avatar'] = $avatarPath;
+        }
+        $userId = User::create($userData);
 
         if ($userId) {
             // Create Player Profile
@@ -229,7 +242,6 @@ class AuthController
                 'date_of_birth' => $data['date_of_birth'],
                 'gender' => $data['gender'],
                 'nationality' => $data['nationality'],
-                'phone' => $data['phone'],
                 'position' => $data['position']
             ]);
 
@@ -241,7 +253,7 @@ class AuthController
                 Session::setUser($user);
 
                 Session::flash('success', 'Registration successful. Welcome to MARU!');
-                header('Location: /player/profile');
+                header('Location: ' . url('/player/profile'));
                 exit;
             } else {
                 Session::flash('error', 'Failed to create player profile. Please contact support.');
@@ -250,7 +262,7 @@ class AuthController
             Session::flash('error', 'Registration failed. Please try again.');
         }
 
-        header('Location: /register/player');
+        header('Location: ' . url('/register/player'));
         exit;
     }
 
@@ -278,7 +290,7 @@ class AuthController
     public function registerCoach(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /register/coach');
+            header('Location: ' . url('/register/coach'));
             exit;
         }
 
@@ -286,7 +298,7 @@ class AuthController
         $csrf = $_POST['csrf_token'] ?? '';
         if (!Session::validateCsrfToken($csrf)) {
             Session::flash('error', 'Invalid security token. Please try again.');
-            header('Location: /register/coach');
+            header('Location: ' . url('/register/coach'));
             exit;
         }
 
@@ -307,7 +319,7 @@ class AuthController
         if ($validator->hasErrors()) {
             Session::flash('errors', $validator->errors());
             Session::flash('old', $_POST);
-            header('Location: /register/coach');
+            header('Location: ' . url('/register/coach'));
             exit;
         }
 
@@ -317,18 +329,37 @@ class AuthController
         if (User::findByEmail($data['email'])) {
             Session::flash('error', 'Email is already registered.');
             Session::flash('old', $_POST);
-            header('Location: /register/coach');
+            header('Location: ' . url('/register/coach'));
             exit;
         }
 
+        // Handle avatar upload
+        $avatarPath = null;
+        if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = UPLOAD_DIR . '/avatars';
+            $result = FileUpload::upload($_FILES['avatar'], $uploadDir, ['jpg', 'jpeg', 'png'], MAX_FILE_SIZE);
+            if ($result['success']) {
+                $avatarPath = $result['file_path'];
+            } else {
+                Session::flash('error', 'Avatar upload failed: ' . $result['error']);
+                Session::flash('old', $_POST);
+                header('Location: ' . url('/register/coach'));
+                exit;
+            }
+        }
+
         // Create User
-        $userId = User::create([
+        $userData = [
             'email' => $data['email'],
             'password' => $data['password'],
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'role' => 'coach'
-        ]);
+        ];
+        if ($avatarPath) {
+            $userData['avatar'] = $avatarPath;
+        }
+        $userId = User::create($userData);
 
         if ($userId) {
             // Create Coach Profile
@@ -350,7 +381,7 @@ class AuthController
                 Session::setUser($user);
 
                 Session::flash('success', 'Registration successful. Welcome to MARU!');
-                header('Location: /coach/profile');
+                header('Location: ' . url('/coach/profile'));
                 exit;
             } else {
                 Session::flash('error', 'Failed to create coach profile. Please contact support.');
@@ -359,7 +390,7 @@ class AuthController
             Session::flash('error', 'Registration failed. Please try again.');
         }
 
-        header('Location: /register/coach');
+        header('Location: ' . url('/register/coach'));
         exit;
     }
 }

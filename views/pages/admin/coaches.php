@@ -4,7 +4,7 @@
         <p class="text-muted m-0 mt-1"><?= count($coaches) ?> coach<?= count($coaches) !== 1 ? 'es' : '' ?></p>
     </div>
     <div class="header-actions">
-        <a href="/admin/coaches/create" class="btn btn-primary rounded-pill px-4 shadow-sm"><i class="ph ph-plus mr-2"></i> Add Coach</a>
+        <a  href="<?= url('/admin/coaches/create') ?>"  class="btn btn-primary rounded-pill px-4 shadow-sm"><i class="ph ph-plus mr-2"></i> Add Coach</a>
     </div>
 </div>
 
@@ -29,7 +29,7 @@
                                     <div class="flex items-center">
                                         <div class="avatar-sm mr-3 overflow-hidden shadow-sm" style="width: 40px; height: 40px; border-radius: var(--radius-full);">
                                             <?php if (!empty($coach['avatar'])): ?>
-                                                <img src="/public/uploads/avatars/<?= htmlspecialchars($coach['avatar']) ?>" alt="Avatar" class="avatar-img" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+                                                <img  src="<?= url('/public/uploads/avatars/' . htmlspecialchars($coach['avatar'])) ?>"  alt="Avatar" class="avatar-img" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
                                             <?php else: ?>
                                                 <div class="flex items-center justify-center h-full bg-primary text-white font-bold text-xs">
                                                     <?= strtoupper(substr($coach['first_name'] ?? 'C', 0, 1)) ?><?= strtoupper(substr($coach['last_name'] ?? '', 0, 1)) ?>
@@ -66,7 +66,7 @@
                                     <span class="badge <?= $badgeClass ?> rounded-pill px-3 py-1"><?= $label ?></span>
                                 </td>
                                 <td class="text-right pr-4">
-                                    <a href="/admin/coaches/<?= $coach['id'] ?>" class="btn btn-sm btn-light text-primary hover-bg-primary hover-text-white transition rounded-pill px-3">Details</a>
+                                    <a  href="<?= url('/admin/coaches/' . $coach['id']) ?>"  class="btn btn-sm btn-light text-primary hover-bg-primary hover-text-white transition rounded-pill px-3">Details</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

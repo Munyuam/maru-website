@@ -12,7 +12,7 @@ $percentFull = $maxPlayers > 0 ? round(($playerCount / $maxPlayers) * 100) : 0;
 <div class="page-header mb-5">
     <div class="flex justify-between items-center">
         <div class="flex items-center gap-4">
-            <a href="/admin/teams" class="btn btn-sm btn-light text-muted hover-bg-light rounded-circle shadow-sm flex items-center justify-center p-0" style="width: 36px; height: 36px;"><i class="ph ph-arrow-left"></i></a>
+            <a  href="<?= url('/admin/teams') ?>"  class="btn btn-sm btn-light text-muted hover-bg-light rounded-circle shadow-sm flex items-center justify-center p-0" style="width: 36px; height: 36px;"><i class="ph ph-arrow-left"></i></a>
             <div>
                 <h1 class="text-3xl font-bold m-0 flex items-center">
                     <?= htmlspecialchars($team['name'] ?? 'Team') ?>
@@ -90,13 +90,13 @@ $percentFull = $maxPlayers > 0 ? round(($playerCount / $maxPlayers) * 100) : 0;
                             <div class="flex items-center">
                                 <div class="avatar avatar-sm <?= $colorClass ?> text-white rounded-circle mr-3 flex items-center justify-center shadow-sm font-bold overflow-hidden" style="width:36px;height:36px;">
                                     <?php if (!empty($player['avatar'])): ?>
-                                        <img src="/public/uploads/avatars/<?= htmlspecialchars($player['avatar']) ?>" alt="Avatar" class="avatar-img" loading="lazy">
+                                        <img  src="<?= url('/public/uploads/avatars/' . htmlspecialchars($player['avatar'])) ?>"  alt="Avatar" class="avatar-img" loading="lazy">
                                     <?php else: ?>
                                         <?= strtoupper(substr($player['first_name'] ?? 'P', 0, 1)) ?><?= strtoupper(substr($player['last_name'] ?? '', 0, 1)) ?>
                                     <?php endif; ?>
                                 </div>
                                 <div>
-                                    <a href="/admin/players/<?= $player['id'] ?>" class="text-dark font-bold hover-text-primary transition d-block"><?= htmlspecialchars(($player['first_name'] ?? '') . ' ' . ($player['last_name'] ?? '')) ?></a>
+                                    <a  href="<?= url('/admin/players/' . $player['id']) ?>"  class="text-dark font-bold hover-text-primary transition d-block"><?= htmlspecialchars(($player['first_name'] ?? '') . ' ' . ($player['last_name'] ?? '')) ?></a>
                                     <span class="text-xs text-muted"><?= htmlspecialchars($player['email'] ?? '') ?></span>
                                 </div>
                             </div>
@@ -117,7 +117,7 @@ $percentFull = $maxPlayers > 0 ? round(($playerCount / $maxPlayers) * 100) : 0;
                             <span class="badge <?= $badgeClass ?> rounded-pill px-3 py-1"><?= $label ?></span>
                         </td>
                         <td class="text-right pr-5">
-                            <a href="/admin/players/<?= $player['id'] ?>" class="btn btn-sm btn-light text-primary hover-bg-primary hover-text-white transition rounded-pill px-3">View</a>
+                            <a  href="<?= url('/admin/players/' . $player['id']) ?>"  class="btn btn-sm btn-light text-primary hover-bg-primary hover-text-white transition rounded-pill px-3">View</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

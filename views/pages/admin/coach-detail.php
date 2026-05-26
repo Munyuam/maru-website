@@ -1,7 +1,7 @@
 <div class="page-header mb-4">
     <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
-            <a href="/admin/coaches" class="btn btn-sm btn-light text-muted hover-bg-light rounded-pill px-3 shadow-sm"><i class="ph ph-arrow-left mr-1"></i> Back</a>
+            <a  href="<?= url('/admin/coaches') ?>"  class="btn btn-sm btn-light text-muted hover-bg-light rounded-pill px-3 shadow-sm"><i class="ph ph-arrow-left mr-1"></i> Back</a>
         </div>
     </div>
 </div>
@@ -14,7 +14,7 @@
             <div class="card-body pt-0 relative">
                 <div class="avatar avatar-xl mx-auto bg-white text-primary flex items-center justify-center rounded-circle shadow-md border-4 border-white overflow-hidden" style="width: 120px; height: 120px; font-size: 3rem; margin-top: -60px; margin-bottom: 1rem; font-weight: bold;">
                     <?php if (!empty($coach['avatar'])): ?>
-                        <img src="/public/uploads/avatars/<?= htmlspecialchars($coach['avatar']) ?>" alt="Avatar" class="avatar-img" loading="lazy">
+                        <img  src="<?= url('/public/uploads/avatars/' . htmlspecialchars($coach['avatar'])) ?>"  alt="Avatar" class="avatar-img" loading="lazy">
                     <?php else: ?>
                         <?= strtoupper(substr($coach['first_name'] ?? 'C', 0, 1)) ?><?= strtoupper(substr($coach['last_name'] ?? '', 0, 1)) ?>
                     <?php endif; ?>
@@ -69,7 +69,7 @@
                             <p class="text-muted mb-0">Currently assigned to this team.</p>
                         </div>
                         <div>
-                            <a href="/admin/teams/<?= $coach['team_id'] ?>" class="btn btn-primary rounded-pill px-4 shadow-sm">View Team <i class="ph ph-arrow-right ml-1"></i></a>
+                            <a  href="<?= url('/admin/teams/' . $coach['team_id']) ?>"  class="btn btn-primary rounded-pill px-4 shadow-sm">View Team <i class="ph ph-arrow-right ml-1"></i></a>
                         </div>
                     </div>
                 <?php else: ?>
@@ -86,7 +86,7 @@
                 <h3 class="text-lg font-bold m-0"><i class="ph ph-clipboard-check text-primary mr-2"></i> Update Status</h3>
             </div>
             <div class="card-body">
-                <form action="/admin/coaches/<?= $coach['id'] ?>/status" method="POST">
+                <form  action="<?= url('/admin/coaches/' . $coach['id'] . '/status') ?>"  method="POST">
                     <input type="hidden" name="csrf_token" value="<?= \App\Helpers\Session::generateCsrfToken() ?>">
                     <div class="flex gap-2">
                         <button type="submit" name="status" value="approved" class="btn btn-success flex-1 rounded-pill shadow-sm"><i class="ph ph-check mr-1"></i> Approve</button>
@@ -140,6 +140,6 @@
     <i class="ph ph-chalkboard-teacher text-4xl text-muted mb-4 block"></i>
     <h3 class="text-xl font-bold mb-2">Coach Not Found</h3>
     <p class="text-muted mb-4">The requested coach could not be found.</p>
-    <a href="/admin/coaches" class="btn btn-primary">Back to Coaches</a>
+    <a  href="<?= url('/admin/coaches') ?>"  class="btn btn-primary">Back to Coaches</a>
 </div>
 <?php endif; ?>

@@ -56,7 +56,7 @@
     <div class="card shadow-sm border-0">
         <div class="card-header border-bottom flex justify-between items-center bg-white py-3">
             <h2 class="text-lg font-bold m-0">Recent Registrations</h2>
-            <a href="/admin/players" class="btn btn-sm btn-outline-secondary">View All</a>
+            <a  href="<?= url('/admin/players') ?>"  class="btn btn-sm btn-outline-secondary">View All</a>
         </div>
         <div class="card-body p-0">
             <?php if (!empty($recentPlayers)): ?>
@@ -65,7 +65,7 @@
                         <div class="activity-item p-3 border-bottom flex items-start hover-bg-light transition">
                             <div class="avatar avatar-sm bg-primary text-white rounded-circle mr-3 flex-shrink-0 flex items-center justify-center overflow-hidden" style="width: 36px; height: 36px;">
                                 <?php if (!empty($player['avatar'])): ?>
-                                    <img src="/public/uploads/avatars/<?= htmlspecialchars($player['avatar']) ?>" alt="Avatar" class="avatar-img" loading="lazy">
+                                    <img  src="<?= url('/public/uploads/avatars/' . htmlspecialchars($player['avatar'])) ?>"  alt="Avatar" class="avatar-img" loading="lazy">
                                 <?php else: ?>
                                     <?= strtoupper(substr($player['first_name'] ?? 'P', 0, 1)) ?><?= strtoupper(substr($player['last_name'] ?? '', 0, 1)) ?>
                                 <?php endif; ?>

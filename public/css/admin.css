@@ -433,3 +433,249 @@ select.form-control { appearance: auto; }
     border-color: var(--color-error);
     color: #fff;
 }
+
+/* ==========================================
+   MARU Red Rebrand - High Contrast Dashboard Theme
+   ========================================== */
+
+/* Layout & Container background */
+.dashboard-layout {
+    background-color: #7f1d1d !important; /* Base backup deep red */
+}
+
+.dashboard-content {
+    background: radial-gradient(circle at center, #ff1a1a 0%, #a30000 100%) !important;
+    min-height: 100vh;
+}
+
+/* Page Header Typography on Red Background */
+.page-header h1, 
+.page-header .text-2xl,
+.page-header h2 {
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.page-header .text-muted, 
+.page-header p {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Sidebar Overrides - Premium Dark Glassmorphism */
+.dashboard-sidebar {
+    background-color: rgba(15, 15, 15, 0.96) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.sidebar-brand {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.sidebar-brand-text {
+    color: #ffffff !important;
+}
+
+.sidebar-link {
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.sidebar-link i {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+}
+
+.sidebar-link:hover i {
+    color: #ffffff !important;
+}
+
+.sidebar-link.active {
+    background-color: #ff0000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+}
+
+.sidebar-link.active i {
+    color: #ffffff !important;
+}
+
+.sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background-color: rgba(10, 10, 10, 0.5) !important;
+    position: absolute !important;
+    bottom: 0 !important;
+}
+
+.sidebar-user-name {
+    color: #ffffff !important;
+}
+
+.sidebar-user-role {
+    color: rgba(255, 255, 255, 0.45) !important;
+}
+
+.sidebar-logout-btn {
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.sidebar-logout-btn:hover {
+    background-color: #ff0000 !important;
+    border-color: #ff0000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
+}
+
+/* Glassmorphism Topbar */
+.dashboard-topbar {
+    background: rgba(0, 0, 0, 0.45) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+.dashboard-topbar .heading-4 {
+    color: #ffffff !important;
+    font-weight: 700;
+}
+
+.sidebar-toggle {
+    color: #ffffff !important;
+}
+
+/* High Contrast Main Dashboard Components */
+.dashboard-main .card {
+    background-color: #ffffff !important;
+    color: #0f172a !important; /* Slate 900 for absolute contrast */
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04) !important;
+    border-radius: 8px !important;
+}
+
+/* Ensure text inside cards is highly readable (no light gray on white background) */
+.dashboard-main .card .text-muted,
+.dashboard-main .card .stat-label {
+    color: #475569 !important; /* Slate 600 */
+}
+
+.dashboard-main .card .text-dark,
+.dashboard-main .card strong,
+.dashboard-main .card h1,
+.dashboard-main .card h2,
+.dashboard-main .card h3 {
+    color: #0f172a !important; /* Slate 900 */
+}
+
+/* Header inside cards */
+.dashboard-main .card-header {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.dashboard-main .card-header h2 {
+    color: #0f172a !important;
+    font-weight: 700;
+}
+
+/* Table styling for premium high contrast readability */
+.dashboard-main table.table {
+    color: #0f172a !important;
+}
+
+.dashboard-main table.table thead th {
+    background-color: #f8fafc !important;
+    color: #475569 !important;
+    font-weight: 700;
+    border-bottom: 2px solid #e2e8f0 !important;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+.dashboard-main table.table tbody tr {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.dashboard-main table.table tbody tr:hover {
+    background-color: #f1f5f9 !important;
+}
+
+.dashboard-main table.table td {
+    color: #334155 !important; /* Slate 700 */
+    border-top: none !important;
+}
+
+/* Activity List */
+.activity-item {
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.activity-item:hover {
+    background-color: #f8fafc !important;
+}
+
+.activity-item strong {
+    color: #0f172a !important;
+}
+
+/* Forms inside dashboards */
+.dashboard-main label.form-label {
+    color: #334155 !important;
+    font-weight: 600;
+}
+
+.dashboard-main .form-control,
+.dashboard-main input[type="text"],
+.dashboard-main input[type="email"],
+.dashboard-main input[type="password"],
+.dashboard-main input[type="date"],
+.dashboard-main input[type="tel"],
+.dashboard-main input[type="number"],
+.dashboard-main select,
+.dashboard-main textarea {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px !important;
+}
+
+.dashboard-main .form-control:focus,
+.dashboard-main input:focus,
+.dashboard-main select:focus,
+.dashboard-main textarea:focus {
+    border-color: #ff0000 !important;
+    box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.15) !important;
+    outline: none !important;
+}
+
+/* Detail displays & lists */
+.dashboard-main .detail-value {
+    color: #0f172a !important;
+    font-weight: 600;
+}
+
+.dashboard-main .detail-label {
+    color: #475569 !important;
+}
+
+/* Custom stats pill icons */
+.stat-icon.bg-primary-light { background-color: rgba(255, 0, 0, 0.1) !important; color: #ff0000 !important; }
+.stat-icon.bg-warning-light { background-color: rgba(234, 179, 8, 0.15) !important; color: #d97706 !important; }
+.stat-icon.bg-success-light { background-color: rgba(16, 185, 129, 0.15) !important; color: #059669 !important; }
+.stat-icon.bg-info-light { background-color: rgba(59, 130, 246, 0.15) !important; color: #2563eb !important; }
+
+/* Status Badges */
+.badge {
+    font-weight: 600 !important;
+    padding: 0.25rem 0.5rem !important;
+}
+.badge-success { background-color: #dcfce7 !important; color: #15803d !important; }
+.badge-warning { background-color: #fef9c3 !important; color: #a16207 !important; }
+.badge-danger { background-color: #fee2e2 !important; color: #b91c1c !important; }

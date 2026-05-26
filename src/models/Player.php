@@ -15,8 +15,8 @@ class Player
     {
         $db = Database::getConnection();
         
-        $sql = "INSERT INTO players (user_id, team_id, date_of_birth, gender, nationality, phone, position) 
-                VALUES (:user_id, :team_id, :date_of_birth, :gender, :nationality, :phone, :position)";
+        $sql = "INSERT INTO players (user_id, team_id, date_of_birth, gender, nationality, position) 
+                VALUES (:user_id, :team_id, :date_of_birth, :gender, :nationality, :position)";
                 
         $stmt = $db->prepare($sql);
         
@@ -26,7 +26,6 @@ class Player
             ':date_of_birth' => $data['date_of_birth'],
             ':gender' => $data['gender'],
             ':nationality' => $data['nationality'],
-            ':phone' => $data['phone'],
             ':position' => $data['position'] ?? null
         ]);
     }
@@ -38,7 +37,7 @@ class Player
     {
         $db = Database::getConnection();
 
-        $sql = "SELECT p.*, u.email, u.first_name, u.last_name, u.is_active,
+        $sql = "SELECT p.*, u.email, u.first_name, u.last_name, u.phone, u.avatar, u.is_active,
                        t.name as team_name
                 FROM players p
                 JOIN users u ON p.user_id = u.id
@@ -59,7 +58,7 @@ class Player
     {
         $db = Database::getConnection();
         
-        $sql = "SELECT p.*, u.email, u.first_name, u.last_name, u.is_active,
+        $sql = "SELECT p.*, u.email, u.first_name, u.last_name, u.phone, u.avatar, u.is_active,
                        t.name as team_name
                 FROM players p
                 JOIN users u ON p.user_id = u.id
@@ -83,7 +82,7 @@ class Player
         $fields = [];
         $params = [':id' => $playerId];
         
-        $allowedFields = ['team_id', 'date_of_birth', 'gender', 'nationality', 'phone', 'position', 'registration_status', 'registration_notes'];
+        $allowedFields = ['team_id', 'date_of_birth', 'gender', 'nationality', 'position', 'registration_status', 'registration_notes', 'address', 'playing_experience', 'previous_clubs', 'emergency_contact_name', 'emergency_contact_phone', 'emergency_contact_relationship'];
         
         foreach ($allowedFields as $field) {
             if (array_key_exists($field, $data)) {
@@ -96,7 +95,7 @@ class Player
             return false;
         }
         
-        $sql = "UPDATE players SET " . implode(', ', $fields) . ", updated_at = CURRENT_TIMESTAMP WHERE id = :id";
+        $sql = "UPDATE players SET " . implode(', ', $fields) . " WHERE id = :id";
         
         $stmt = $db->prepare($sql);
         return $stmt->execute($params);
@@ -165,23 +164,37 @@ class Player
     /**
      * Get player registration status
      */
-    public static function getRegistrationStatus(int $playerId): ?string
+    public static function getRegistrationStatus(int $playerId): ?array
     {
         $db = Database::getConnection();
         
-        $sql = "SELECT 
-                    CASE 
-                        WHEN team_id IS NULL THEN 'pending'
-                        ELSE 'registered'
-                    END as status
+        $sql = "SELECT registration_status, registered_at, reviewed_at
                 FROM players
                 WHERE id = :id";
-                
+
         $stmt = $db->prepare($sql);
         $stmt->execute([':id' => $playerId]);
-        
-        $result = $stmt->fetchColumn();
-        return $result !== false ? (string)$result : null;
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$row) {
+            return null;
+        }
+
+        $status = $row['registration_status'] ?? 'pending';
+        $step = match ($status) {
+            'approved', 'rejected' => 3,
+            'under_review' => 2,
+            default => 1
+        };
+
+        return [
+            'step' => $step,
+            'status' => $status,
+            'is_approved' => $status === 'approved',
+            'is_rejected' => $status === 'rejected',
+            'submitted_date' => $row['registered_at'],
+            'reviewed_at' => $row['reviewed_at']
+        ];
     }
 
     /**

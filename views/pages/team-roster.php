@@ -7,7 +7,7 @@
             <?php endif; ?>
         </div>
         <div class="page-actions">
-            <a href="/coach/profile" class="btn btn-outline">Back to Profile</a>
+            <a  href="<?= url('/coach/profile') ?>"  class="btn btn-outline">Back to Profile</a>
         </div>
     </div>
 
@@ -30,24 +30,25 @@
                                 <td class="p-4">
                                     <div class="font-medium"><?= htmlspecialchars(($player['first_name'] ?? '') . ' ' . ($player['last_name'] ?? '')) ?></div>
                                 </td>
-                                <td class="p-4"><?= htmlspecialchars($player['preferred_position'] ?? 'Unassigned') ?></td>
-                                <td class="p-4"><?= htmlspecialchars($player['years_played'] ?? '0') ?> years</td>
+                                <td class="p-4"><?= htmlspecialchars(ucfirst($player['position'] ?? 'Unassigned')) ?></td>
+                                <td class="p-4"><?= htmlspecialchars((string)($player['playing_experience'] ?? '0')) ?> years</td>
                                 <td class="p-4">
                                     <?php 
-                                        $statusClass = 'badge-secondary';
-                                        $statusText = $player['status'] ?? 'pending';
-                                        if ($statusText === 'active' || $statusText === 'approved') {
-                                            $statusClass = 'badge-success';
-                                        } elseif ($statusText === 'rejected' || $statusText === 'inactive') {
-                                            $statusClass = 'badge-danger';
-                                        }
+                                        $regStatus = $player['registration_status'] ?? 'pending';
+                                        $statusLabels = [
+                                            'pending' => ['Pending', '#6b7280'],
+                                            'under_review' => ['Under Review', '#f59e0b'],
+                                            'approved' => ['Approved', '#10b981'],
+                                            'rejected' => ['Rejected', '#ef4444']
+                                        ];
+                                        $statusInfo = $statusLabels[$regStatus] ?? $statusLabels['pending'];
                                     ?>
-                                    <span class="badge <?= $statusClass ?> px-2 py-1 rounded text-xs uppercase font-bold text-white bg-opacity-90" style="background-color: <?= $statusClass === 'badge-success' ? '#10b981' : ($statusClass === 'badge-danger' ? '#ef4444' : '#6b7280') ?>;">
-                                        <?= htmlspecialchars($statusText) ?>
+                                    <span class="badge px-2 py-1 rounded text-xs uppercase font-bold text-white" style="background-color: <?= $statusInfo[1] ?>;">
+                                        <?= $statusInfo[0] ?>
                                     </span>
                                 </td>
                                 <td class="p-4 text-right">
-                                    <a href="/player/<?= htmlspecialchars($player['id'] ?? '') ?>" class="btn btn-sm btn-outline-primary">View</a>
+                                    <a  href="<?= url('/coach/player/' . htmlspecialchars($player['id'] ?? '')) ?>"  class="btn btn-sm btn-outline-primary">View</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

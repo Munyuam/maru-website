@@ -6,12 +6,14 @@ namespace App\Controllers;
 
 use App\Helpers\Session;
 use App\Helpers\FileUpload;
-use App\Models\User;
-use App\Models\Player;
-use App\Models\Coach;
-use App\Models\Team;
+use App\Helpers\Validator;
 use App\Config\Database;
+use App\Models\Coach;
 use App\Models\Document;
+use App\Models\Player;
+use App\Models\Post;
+use App\Models\Team;
+use App\Models\User;
 use PDO;
 
 /**
@@ -148,14 +150,14 @@ class AdminController
     public function createPlayer(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /admin/players/create');
+            header('Location: ' . url('/admin/players/create'));
             exit;
         }
 
         $csrf = $_POST['csrf_token'] ?? '';
         if (!Session::validateCsrfToken($csrf)) {
             Session::setFlash('error', 'Invalid security token.');
-            header('Location: /admin/players/create');
+            header('Location: ' . url('/admin/players/create'));
             exit;
         }
 
@@ -175,7 +177,7 @@ class AdminController
         if ($validator->hasErrors()) {
             Session::setFlash('errors', $validator->errors());
             Session::setFlash('old', $_POST);
-            header('Location: /admin/players/create');
+            header('Location: ' . url('/admin/players/create'));
             exit;
         }
 
@@ -184,7 +186,7 @@ class AdminController
         if (\App\Models\User::findByEmail($data['email'])) {
             Session::setFlash('error', 'Email is already registered.');
             Session::setFlash('old', $_POST);
-            header('Location: /admin/players/create');
+            header('Location: ' . url('/admin/players/create'));
             exit;
         }
 
@@ -209,13 +211,13 @@ class AdminController
 
             if ($playerCreated) {
                 Session::setFlash('success', 'Player created successfully.');
-                header('Location: /admin/players');
+                header('Location: ' . url('/admin/players'));
                 exit;
             }
         }
 
         Session::setFlash('error', 'Failed to create player.');
-        header('Location: /admin/players/create');
+        header('Location: ' . url('/admin/players/create'));
         exit;
     }
 
@@ -234,14 +236,14 @@ class AdminController
     public function createCoach(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /admin/coaches/create');
+            header('Location: ' . url('/admin/coaches/create'));
             exit;
         }
 
         $csrf = $_POST['csrf_token'] ?? '';
         if (!Session::validateCsrfToken($csrf)) {
             Session::setFlash('error', 'Invalid security token.');
-            header('Location: /admin/coaches/create');
+            header('Location: ' . url('/admin/coaches/create'));
             exit;
         }
 
@@ -261,7 +263,7 @@ class AdminController
         if ($validator->hasErrors()) {
             Session::setFlash('errors', $validator->errors());
             Session::setFlash('old', $_POST);
-            header('Location: /admin/coaches/create');
+            header('Location: ' . url('/admin/coaches/create'));
             exit;
         }
 
@@ -270,7 +272,7 @@ class AdminController
         if (\App\Models\User::findByEmail($data['email'])) {
             Session::setFlash('error', 'Email is already registered.');
             Session::setFlash('old', $_POST);
-            header('Location: /admin/coaches/create');
+            header('Location: ' . url('/admin/coaches/create'));
             exit;
         }
 
@@ -296,13 +298,13 @@ class AdminController
 
             if ($coachCreated) {
                 Session::setFlash('success', 'Coach created successfully.');
-                header('Location: /admin/coaches');
+                header('Location: ' . url('/admin/coaches'));
                 exit;
             }
         }
 
         Session::setFlash('error', 'Failed to create coach.');
-        header('Location: /admin/coaches/create');
+        header('Location: ' . url('/admin/coaches/create'));
         exit;
     }
 
@@ -320,14 +322,14 @@ class AdminController
     public function createAdmin(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /admin/admins/create');
+            header('Location: ' . url('/admin/admins/create'));
             exit;
         }
 
         $csrf = $_POST['csrf_token'] ?? '';
         if (!Session::validateCsrfToken($csrf)) {
             Session::setFlash('error', 'Invalid security token.');
-            header('Location: /admin/admins/create');
+            header('Location: ' . url('/admin/admins/create'));
             exit;
         }
 
@@ -342,7 +344,7 @@ class AdminController
         if ($validator->hasErrors()) {
             Session::setFlash('errors', $validator->errors());
             Session::setFlash('old', $_POST);
-            header('Location: /admin/admins/create');
+            header('Location: ' . url('/admin/admins/create'));
             exit;
         }
 
@@ -351,7 +353,7 @@ class AdminController
         if (\App\Models\User::findByEmail($data['email'])) {
             Session::setFlash('error', 'Email is already registered.');
             Session::setFlash('old', $_POST);
-            header('Location: /admin/admins/create');
+            header('Location: ' . url('/admin/admins/create'));
             exit;
         }
 
@@ -365,12 +367,12 @@ class AdminController
 
         if ($userId) {
             Session::setFlash('success', 'Admin created successfully.');
-            header('Location: /admin');
+            header('Location: ' . url('/admin'));
             exit;
         }
 
         Session::setFlash('error', 'Failed to create admin.');
-        header('Location: /admin/admins/create');
+        header('Location: ' . url('/admin/admins/create'));
         exit;
     }
 
@@ -384,7 +386,7 @@ class AdminController
 
         if (!$user) {
             Session::setFlash('error', 'User not found.');
-            header('Location: /admin');
+            header('Location: ' . url('/admin'));
             exit;
         }
 
@@ -400,7 +402,7 @@ class AdminController
     public function updateProfile(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /admin/profile');
+            header('Location: ' . url('/admin/profile'));
             exit;
         }
 
@@ -412,14 +414,14 @@ class AdminController
 
         if (empty($firstName) || empty($lastName) || empty($email)) {
             Session::setFlash('error', 'First name, last name, and email are required.');
-            header('Location: /admin/profile');
+            header('Location: ' . url('/admin/profile'));
             exit;
         }
 
         $existingUser = User::findByEmail($email);
         if ($existingUser && (int)$existingUser['id'] !== $userId) {
             Session::setFlash('error', 'Email is already in use.');
-            header('Location: /admin/profile');
+            header('Location: ' . url('/admin/profile'));
             exit;
         }
 
@@ -438,7 +440,7 @@ class AdminController
                 $updateData['avatar'] = $result['file_path'];
             } else {
                 Session::setFlash('error', 'Avatar upload failed: ' . $result['error']);
-                header('Location: /admin/profile');
+                header('Location: ' . url('/admin/profile'));
                 exit;
             }
         }
@@ -451,7 +453,7 @@ class AdminController
             Session::setFlash('error', 'Failed to update profile.');
         }
 
-        header('Location: /admin/profile');
+        header('Location: ' . url('/admin/profile'));
         exit;
     }
 
@@ -461,7 +463,7 @@ class AdminController
     public function changePassword(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /admin/profile');
+            header('Location: ' . url('/admin/profile'));
             exit;
         }
 
@@ -472,26 +474,26 @@ class AdminController
 
         if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
             Session::setFlash('error', 'All password fields are required.');
-            header('Location: /admin/profile');
+            header('Location: ' . url('/admin/profile'));
             exit;
         }
 
         if ($newPassword !== $confirmPassword) {
             Session::setFlash('error', 'New passwords do not match.');
-            header('Location: /admin/profile');
+            header('Location: ' . url('/admin/profile'));
             exit;
         }
 
         if (strlen($newPassword) < 8) {
             Session::setFlash('error', 'Password must be at least 8 characters long.');
-            header('Location: /admin/profile');
+            header('Location: ' . url('/admin/profile'));
             exit;
         }
 
         $user = User::findById($userId);
         if (!$user || !password_verify($currentPassword, $user['password'])) {
             Session::setFlash('error', 'Current password is incorrect.');
-            header('Location: /admin/profile');
+            header('Location: ' . url('/admin/profile'));
             exit;
         }
 
@@ -501,7 +503,7 @@ class AdminController
             Session::setFlash('error', 'Failed to change password.');
         }
 
-        header('Location: /admin/profile');
+        header('Location: ' . url('/admin/profile'));
         exit;
     }
 
@@ -545,7 +547,7 @@ class AdminController
         
         if (!$player) {
             Session::setFlash('error', 'Player not found.');
-            header('Location: /admin/players');
+            header('Location: ' . url('/admin/players'));
             exit;
         }
 
@@ -563,7 +565,7 @@ class AdminController
             $csrf = $_POST['csrf_token'] ?? '';
             if (!Session::validateCsrfToken($csrf)) {
                 Session::setFlash('error', 'Invalid security token.');
-                header("Location: /admin/players/{$id}");
+                header('Location: ' . url("/admin/players/{$id}"));
                 exit;
             }
 
@@ -585,7 +587,7 @@ class AdminController
             }
         }
         
-        header("Location: /admin/players/{$id}");
+        header('Location: ' . url("/admin/players/{$id}"));
         exit;
     }
 
@@ -610,7 +612,7 @@ class AdminController
         
         if (!$coach) {
             Session::setFlash('error', 'Coach not found.');
-            header('Location: /admin/coaches');
+            header('Location: ' . url('/admin/coaches'));
             exit;
         }
 
@@ -628,7 +630,7 @@ class AdminController
             $csrf = $_POST['csrf_token'] ?? '';
             if (!Session::validateCsrfToken($csrf)) {
                 Session::setFlash('error', 'Invalid security token.');
-                header("Location: /admin/coaches/{$id}");
+                header('Location: ' . url("/admin/coaches/{$id}"));
                 exit;
             }
 
@@ -649,7 +651,7 @@ class AdminController
             }
         }
         
-        header("Location: /admin/coaches/{$id}");
+        header('Location: ' . url("/admin/coaches/{$id}"));
         exit;
     }
 
@@ -681,7 +683,7 @@ class AdminController
             $csrf = $_POST['csrf_token'] ?? '';
             if (!Session::validateCsrfToken($csrf)) {
                 Session::setFlash('error', 'Invalid security token.');
-                header('Location: /admin/teams/create');
+                header('Location: ' . url('/admin/teams/create'));
                 exit;
             }
 
@@ -692,7 +694,7 @@ class AdminController
 
             if (empty($name)) {
                 Session::setFlash('error', 'Team name is required.');
-                header('Location: /admin/teams/create');
+                header('Location: ' . url('/admin/teams/create'));
                 exit;
             }
 
@@ -707,16 +709,16 @@ class AdminController
                     Team::assignCoach($teamId, $coachId);
                 }
                 Session::setFlash('success', 'Team created successfully.');
-                header('Location: /admin/teams');
+                header('Location: ' . url('/admin/teams'));
                 exit;
             } else {
                 Session::setFlash('error', 'Failed to create team.');
-                header('Location: /admin/teams/create');
+                header('Location: ' . url('/admin/teams/create'));
                 exit;
             }
         }
         
-        header('Location: /admin/teams');
+        header('Location: ' . url('/admin/teams'));
         exit;
     }
 
@@ -731,7 +733,7 @@ class AdminController
         
         if (!$team) {
             Session::setFlash('error', 'Team not found.');
-            header('Location: /admin/teams');
+            header('Location: ' . url('/admin/teams'));
             exit;
         }
         
@@ -761,7 +763,7 @@ class AdminController
             $csrf = $_POST['csrf_token'] ?? '';
             if (!Session::validateCsrfToken($csrf)) {
                 Session::setFlash('error', 'Invalid security token.');
-                header('Location: /admin/documents');
+                header('Location: ' . url('/admin/documents'));
                 exit;
             }
 
@@ -780,7 +782,7 @@ class AdminController
             }
         }
         
-        header('Location: /admin/documents');
+        header('Location: ' . url('/admin/documents'));
         exit;
     }
 
@@ -791,10 +793,11 @@ class AdminController
     {
         $db = Database::getConnection();
         $stmt = $db->query("
-            SELECT n.*, u.first_name, u.last_name
+            SELECT n.*, u.first_name, u.last_name, t.name AS team_name
             FROM notifications n
             JOIN users u ON n.sender_id = u.id
-            WHERE n.user_id = 0 OR n.type IN ('info', 'warning')
+            LEFT JOIN teams t ON n.target_type = 'team' AND n.target_id = t.id
+            WHERE n.user_id = 0
             ORDER BY n.created_at DESC
         ");
         $announcements = $stmt->fetchAll(\PDO::FETCH_ASSOC);
@@ -810,7 +813,11 @@ class AdminController
      */
     public function createAnnouncementForm(): void
     {
-        $this->render('admin/announcement-form', ['pageTitle' => 'Create Announcement']);
+        $teams = Team::getAll();
+        $this->render('admin/announcement-form', [
+            'pageTitle' => 'Create Announcement',
+            'teams' => $teams
+        ]);
     }
 
     /**
@@ -822,29 +829,33 @@ class AdminController
             $title = $_POST['title'] ?? '';
             $message = $_POST['message'] ?? '';
             $type = $_POST['type'] ?? 'info';
+            $targetType = $_POST['target_type'] ?? 'all';
+            $targetId = ($targetType === 'team' && !empty($_POST['target_id'])) ? (int)$_POST['target_id'] : null;
             $adminId = Session::getUserId();
 
             if (empty($title) || empty($message)) {
                 Session::setFlash('error', 'Title and message are required.');
-                header('Location: /admin/announcements/create');
+                header('Location: ' . url('/admin/announcements/create'));
                 exit;
             }
 
             try {
                 $db = Database::getConnection();
-                $stmt = $db->prepare("INSERT INTO notifications (user_id, sender_id, title, message, type, created_at) VALUES (0, :sender_id, :title, :message, :type, NOW())");
+                $stmt = $db->prepare("INSERT INTO notifications (user_id, sender_id, title, message, type, target_type, target_id, created_at) VALUES (0, :sender_id, :title, :message, :type, :target_type, :target_id, NOW())");
                 $stmt->execute([
                     'sender_id' => $adminId,
                     'title' => $title,
                     'message' => $message,
-                    'type' => $type
+                    'type' => $type,
+                    'target_type' => $targetType,
+                    'target_id' => $targetId
                 ]);
                 Session::setFlash('success', 'Announcement published successfully.');
             } catch (\Exception $e) {
                 Session::setFlash('error', 'Failed to create announcement.');
             }
         }
-        header('Location: /admin/announcements');
+        header('Location: ' . url('/admin/announcements'));
         exit;
     }
 
@@ -884,6 +895,176 @@ class AdminController
         // Redirect back (wherever they came from, or dashboard as fallback)
         $redirect = $_SERVER['HTTP_REFERER'] ?? '/admin/dashboard';
         header("Location: {$redirect}");
+        exit;
+    }
+
+    public function posts(): void
+    {
+        $posts = Post::findAll();
+        $this->render('admin/posts', [
+            'posts' => $posts,
+            'pageTitle' => 'Posts'
+        ]);
+    }
+
+    public function createPostForm(): void
+    {
+        $this->render('admin/post-form', [
+            'post' => null,
+            'pageTitle' => 'Create Post'
+        ]);
+    }
+
+    public function createPost(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . url('/admin/posts/create'));
+            exit;
+        }
+
+        $title = $_POST['title'] ?? '';
+        $body = $_POST['body'] ?? '';
+        if (empty($title) || empty($body)) {
+            Session::setFlash('error', 'Title and body are required.');
+            header('Location: ' . url('/admin/posts/create'));
+            exit;
+        }
+
+        $image = null;
+        if (!empty($_FILES['image']['name'])) {
+            $uploadDir = UPLOAD_DIR . '/posts';
+            $result = FileUpload::upload($_FILES['image'], $uploadDir, ['jpg', 'jpeg', 'png'], MAX_FILE_SIZE);
+            if (!$result['success']) {
+                Session::setFlash('error', 'Image upload failed: ' . ($result['error'] ?? 'unknown error'));
+                header('Location: ' . url('/admin/posts/create'));
+                exit;
+            }
+            $image = $result['file_path'];
+        }
+
+        $isPublished = !empty($_POST['is_published']) ? 1 : 0;
+        try {
+            Post::create([
+                'title' => $title,
+                'excerpt' => $_POST['excerpt'] ?? null,
+                'body' => $body,
+                'image' => $image,
+                'author_id' => Session::getUserId(),
+                'is_published' => $isPublished,
+                'published_at' => $isPublished ? date('Y-m-d H:i:s') : null,
+            ]);
+            Session::setFlash('success', 'Post created successfully.');
+        } catch (\Exception $e) {
+            Session::setFlash('error', 'Failed to create post.');
+        }
+        header('Location: ' . url('/admin/posts'));
+        exit;
+    }
+
+    public function editPostForm(int $id): void
+    {
+        $post = Post::findById($id);
+        if (!$post) {
+            Session::setFlash('error', 'Post not found.');
+            header('Location: ' . url('/admin/posts'));
+            exit;
+        }
+        $this->render('admin/post-form', [
+            'post' => $post,
+            'pageTitle' => 'Edit Post'
+        ]);
+    }
+
+    public function updatePost(int $id): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . url('/admin/posts'));
+            exit;
+        }
+
+        $post = Post::findById($id);
+        if (!$post) {
+            Session::setFlash('error', 'Post not found.');
+            header('Location: ' . url('/admin/posts'));
+            exit;
+        }
+
+        $data = [
+            'title' => $_POST['title'] ?? '',
+            'excerpt' => $_POST['excerpt'] ?? null,
+            'body' => $_POST['body'] ?? '',
+        ];
+
+        if (empty($data['title']) || empty($data['body'])) {
+            Session::setFlash('error', 'Title and body are required.');
+            header('Location: ' . url('/admin/posts/edit/' . $id));
+            exit;
+        }
+
+        $isPublished = !empty($_POST['is_published']) ? 1 : 0;
+        $data['is_published'] = $isPublished;
+        if ($isPublished && empty($post['published_at'])) {
+            $data['published_at'] = date('Y-m-d H:i:s');
+        }
+
+        if (!empty($_FILES['image']['name'])) {
+            $uploadDir = UPLOAD_DIR . '/posts';
+            $result = FileUpload::upload($_FILES['image'], $uploadDir, ['jpg', 'jpeg', 'png'], MAX_FILE_SIZE);
+            if (!$result['success']) {
+                Session::setFlash('error', 'Image upload failed: ' . ($result['error'] ?? 'unknown error'));
+                header('Location: ' . url('/admin/posts/edit/' . $id));
+                exit;
+            }
+            $data['image'] = $result['file_path'];
+            // Delete old image
+            if (!empty($post['image'])) {
+                $oldPath = UPLOAD_DIR . '/posts/' . $post['image'];
+                if (file_exists($oldPath)) unlink($oldPath);
+            }
+        }
+
+        try {
+            Post::update($id, $data);
+            Session::setFlash('success', 'Post updated successfully.');
+        } catch (\Exception $e) {
+            Session::setFlash('error', 'Failed to update post.');
+        }
+        header('Location: ' . url('/admin/posts'));
+        exit;
+    }
+
+    public function deletePost(int $id): void
+    {
+        $post = Post::findById($id);
+        if ($post) {
+            if (!empty($post['image'])) {
+                $path = UPLOAD_DIR . '/posts/' . $post['image'];
+                if (file_exists($path)) unlink($path);
+            }
+            Post::delete($id);
+            Session::setFlash('success', 'Post deleted.');
+        } else {
+            Session::setFlash('error', 'Post not found.');
+        }
+        header('Location: ' . url('/admin/posts'));
+        exit;
+    }
+
+    public function togglePost(int $id): void
+    {
+        $post = Post::findById($id);
+        if ($post) {
+            $newStatus = $post['is_published'] ? 0 : 1;
+            $data = ['is_published' => $newStatus];
+            if ($newStatus && empty($post['published_at'])) {
+                $data['published_at'] = date('Y-m-d H:i:s');
+            }
+            Post::update($id, $data);
+            Session::setFlash('success', 'Post ' . ($newStatus ? 'published' : 'unpublished') . '.');
+        } else {
+            Session::setFlash('error', 'Post not found.');
+        }
+        header('Location: ' . url('/admin/posts'));
         exit;
     }
 }

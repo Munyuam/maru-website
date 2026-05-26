@@ -8,7 +8,7 @@
             <i class="ph ph-magnifying-glass absolute text-muted" style="left: 12px; top: 50%; transform: translateY(-50%);"></i>
             <input type="text" class="form-control pl-5 rounded-pill" placeholder="Search players..." id="playerSearch" oninput="filterPlayers(this.value)">
         </div>
-        <a href="/admin/players/create" class="btn btn-primary rounded-pill px-4 shadow-sm"><i class="ph ph-plus mr-2"></i> Add Player</a>
+        <a  href="<?= url('/admin/players/create') ?>"  class="btn btn-primary rounded-pill px-4 shadow-sm"><i class="ph ph-plus mr-2"></i> Add Player</a>
         <button class="btn btn-outline-primary shadow-sm"><i class="ph ph-download-simple mr-2"></i> Export CSV</button>
     </div>
 </div>
@@ -34,7 +34,7 @@
                                     <div class="flex items-center">
                                         <div class="avatar avatar-sm mr-3 overflow-hidden" style="width: 40px; height: 40px;">
                                             <?php if (!empty($player['avatar'])): ?>
-                                                <img src="/public/uploads/avatars/<?= htmlspecialchars($player['avatar']) ?>" alt="Avatar" class="avatar-img" loading="lazy">
+                                                <img  src="<?= url('/public/uploads/avatars/' . htmlspecialchars($player['avatar'])) ?>"  alt="Avatar" class="avatar-img" loading="lazy">
                                             <?php else: ?>
                                                 <div class="avatar-initials flex items-center justify-center h-full bg-primary text-white font-bold">
                                                     <?= strtoupper(substr($player['first_name'] ?? 'P', 0, 1)) ?><?= strtoupper(substr($player['last_name'] ?? '', 0, 1)) ?>
@@ -69,7 +69,7 @@
                                     <span class="badge <?= $badgeClass ?> rounded-pill px-3 py-1"><?= $label ?></span>
                                 </td>
                                 <td class="text-right">
-                                    <a href="/admin/players/<?= $player['id'] ?>" class="btn btn-sm btn-light text-primary hover-bg-primary hover-text-white transition rounded-pill px-3">View Details</a>
+                                    <a  href="<?= url('/admin/players/' . $player['id']) ?>"  class="btn btn-sm btn-light text-primary hover-bg-primary hover-text-white transition rounded-pill px-3">View Details</a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

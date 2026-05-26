@@ -1,8 +1,8 @@
 :root {
     /* Core Brand Colors */
-    --color-primary: #ef4444;
-    --color-primary-hover: #dc2626;
-    --color-primary-light: rgba(239, 68, 68, 0.1);
+    --color-primary: #ff0000;
+    --color-primary-hover: #cc0000;
+    --color-primary-light: rgba(255, 0, 0, 0.1);
     
     --color-secondary: #10b981;
     --color-secondary-hover: #059669;
@@ -12,7 +12,7 @@
     /* Status Colors */
     --color-success: #10b981;
     --color-warning: #eab308;  
-    --color-error: #ef4444;
+    --color-error: #ff0000;
     --color-info: #3b82f6;
 
     /* Border Radius */
@@ -30,6 +30,7 @@
     /* Typography */
     --font-sans: 'Inter', system-ui, sans-serif;
     --font-heading: 'Inter', system-ui, sans-serif;
+    --font-serif: Georgia, 'Times New Roman', serif;
 
     /* Transitions */
     --transition-fast: 150ms ease;
@@ -186,11 +187,18 @@ body {
 .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
+.col-span-1 { grid-column: span 1; }
+.col-span-2 { grid-column: span 2; }
+.col-span-3 { grid-column: span 3; }
+
 @media (max-width: 1024px) {
     .grid-4, .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .col-span-2 { grid-column: span 1; }
+    .col-span-3 { grid-column: span 2; }
 }
 @media (max-width: 768px) {
     .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .col-span-1, .col-span-2, .col-span-3 { grid-column: span 1; }
     .flex-col-md { flex-direction: column; }
 }
 

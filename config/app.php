@@ -19,5 +19,32 @@ define('ALLOWED_FILE_TYPES', ['jpg', 'jpeg', 'png', 'pdf']);
 // Pagination
 define('ITEMS_PER_PAGE', 15);
 
-// Session
-define('SESSION_LIFETIME', 3600); // 1 hour
+// Session (24 hours)
+define('SESSION_LIFETIME', 86400);
+
+/**
+ * Helper to generate absolute URLs relative to the application root.
+ * Works both at the root of a domain and when deployed in a subdirectory.
+ */
+if (!function_exists('url')) {
+    function url(string $path = ''): string {
+        static $basePath = null;
+        if ($basePath === null) {
+            $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+            $dir = dirname($scriptName);
+            $basePath = ($dir === DIRECTORY_SEPARATOR || $dir === '.') ? '' : str_replace('\\', '/', $dir);
+        }
+        return $basePath . '/' . ltrim($path, '/');
+    }
+}
+
+/**
+ * Helper to perform redirects relative to the application base.
+ */
+if (!function_exists('redirect')) {
+    function redirect(string $path): void {
+        header('Location: ' . url($path));
+        exit;
+    }
+}
+

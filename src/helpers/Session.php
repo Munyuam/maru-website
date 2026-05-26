@@ -5,8 +5,10 @@ namespace App\Helpers;
 class Session {
     public static function start(): void {
         if (session_status() === PHP_SESSION_NONE) {
+            $lifetime = defined('SESSION_LIFETIME') ? SESSION_LIFETIME : 86400;
+            ini_set('session.gc_maxlifetime', (string)$lifetime);
             session_set_cookie_params([
-                'lifetime' => defined('SESSION_LIFETIME') ? SESSION_LIFETIME : 3600,
+                'lifetime' => $lifetime,
                 'path' => '/',
                 'domain' => '',
                 'secure' => isset($_SERVER['HTTPS']),

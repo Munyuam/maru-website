@@ -9,13 +9,13 @@
     <div class="card shadow-sm border-0">
         <div class="card-body p-6">
             <h2 class="text-lg font-bold mb-4">Profile Information</h2>
-            <form action="/admin/profile/update" method="POST" enctype="multipart/form-data">
+            <form  action="<?= url('/admin/profile/update') ?>"  method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="csrf_token" value="<?= \App\Helpers\Session::generateCsrfToken() ?>">
                 
                 <div class="flex items-center gap-4 mb-6">
                     <div class="avatar-preview" id="avatarPreview">
                         <?php if (!empty($user['avatar'])): ?>
-                            <img src="/public/uploads/avatars/<?= htmlspecialchars($user['avatar']) ?>" alt="Avatar" class="avatar-img" loading="lazy">
+                            <img  src="<?= url('/public/uploads/avatars/' . htmlspecialchars($user['avatar'])) ?>"  alt="Avatar" class="avatar-img" loading="lazy">
                         <?php else: ?>
                             <div class="avatar-placeholder">
                                 <?= strtoupper(substr($user['first_name'] ?? 'A', 0, 1)) ?><?= strtoupper(substr($user['last_name'] ?? '', 0, 1)) ?>
@@ -68,7 +68,7 @@
         <div class="card shadow-sm border-0 mb-6">
             <div class="card-body p-6">
                 <h2 class="text-lg font-bold mb-4">Change Password</h2>
-                <form action="/admin/profile/password" method="POST">
+                <form  action="<?= url('/admin/profile/password') ?>"  method="POST">
                     <input type="hidden" name="csrf_token" value="<?= \App\Helpers\Session::generateCsrfToken() ?>">
                     
                     <div class="mb-4">
@@ -95,7 +95,7 @@
         <div class="card shadow-sm border-0 mb-6">
             <div class="card-body p-6">
                 <h2 class="text-lg font-bold mb-4">Admin Management</h2>
-                <a href="/admin/admins/create" class="btn btn-outline-primary w-full justify-center"><i class="ph ph-shield-plus mr-2"></i> Add New Admin</a>
+                <a  href="<?= url('/admin/admins/create') ?>"  class="btn btn-outline-primary w-full justify-center"><i class="ph ph-shield-plus mr-2"></i> Add New Admin</a>
             </div>
         </div>
 

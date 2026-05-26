@@ -44,6 +44,27 @@ class Router {
         $method = $_SERVER['REQUEST_METHOD'];
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
+        // Normalize base path for subdirectory deployments (e.g. XAMPP /Allstar)
+        $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+        $basePath = dirname($scriptName);
+        $basePath = ($basePath === DIRECTORY_SEPARATOR || $basePath === '.') ? '' : str_replace('\\', '/', $basePath);
+        
+        if ($basePath !== '' && strpos($path, $basePath) === 0) {
+            $path = substr($path, strlen($basePath));
+        }
+        
+        // Remove index.php if present at the start of the path
+        if (strpos($path, '/index.php') === 0) {
+            $path = substr($path, 10);
+        } elseif ($path === 'index.php') {
+            $path = '/';
+        }
+        
+        // Ensure path starts with a slash and is not empty
+        if (empty($path)) {
+            $path = '/';
+        }
+
         if (!isset($this->routes[$method])) {
             $this->sendNotFound();
             return;

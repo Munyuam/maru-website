@@ -4,7 +4,7 @@
         <p class="text-muted m-0 mt-1">Publish and manage system-wide announcements</p>
     </div>
     <div class="header-actions">
-        <a href="/admin/announcements/create" class="btn btn-primary rounded-pill px-4 shadow-sm">
+        <a  href="<?= url('/admin/announcements/create') ?>"  class="btn btn-primary rounded-pill px-4 shadow-sm">
             <i class="ph ph-plus mr-2"></i> New Announcement
         </a>
     </div>
@@ -31,7 +31,11 @@
                                 <small class="text-muted"><?= htmlspecialchars(date('M j, Y g:i A', strtotime($announcement['created_at']))) ?></small>
                             </div>
                             <p class="text-muted text-sm mb-2"><?= nl2br(htmlspecialchars($announcement['message'])) ?></p>
-                            <small class="text-xs text-muted">Posted by <?= htmlspecialchars(($announcement['first_name'] ?? '') . ' ' . ($announcement['last_name'] ?? 'System')) ?></small>
+                            <small class="text-xs text-muted">Posted by <?= htmlspecialchars(($announcement['first_name'] ?? '') . ' ' . ($announcement['last_name'] ?? 'System')) ?>
+                                <?php if ($announcement['target_type'] === 'team' && !empty($announcement['team_name'])): ?>
+                                    &middot; Team: <?= htmlspecialchars($announcement['team_name']) ?>
+                                <?php endif; ?>
+                            </small>
                         </div>
                     </div>
                 </div>
@@ -40,7 +44,7 @@
             <div class="text-center py-5 text-muted">
                 <i class="ph ph-megaphone text-4xl mb-3 d-block"></i>
                 <p class="m-0">No announcements yet.</p>
-                <a href="/admin/announcements/create" class="btn btn-primary btn-sm mt-3 rounded-pill">Create First Announcement</a>
+                <a  href="<?= url('/admin/announcements/create') ?>"  class="btn btn-primary btn-sm mt-3 rounded-pill">Create First Announcement</a>
             </div>
         <?php endif; ?>
     </div>

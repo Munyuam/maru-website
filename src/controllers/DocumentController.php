@@ -16,13 +16,13 @@ class DocumentController
             $token = $_POST['csrf_token'] ?? '';
             if (!Session::validateCsrfToken($token)) {
                 Session::setFlash('error', 'Invalid CSRF token.');
-                header('Location: /profile');
+                header('Location: ' . url('/player/profile'));
                 exit;
             }
 
             if (!isset($_FILES['document']) || !isset($_POST['document_type'])) {
                 Session::setFlash('error', 'Please provide a document and its type.');
-                header('Location: /profile');
+                header('Location: ' . url('/player/profile'));
                 exit;
             }
 
@@ -37,14 +37,14 @@ class DocumentController
                 
                 if (!$fileInfo['success']) {
                     Session::setFlash('error', $fileInfo['error'] ?? 'File upload failed.');
-                    header('Location: /player/profile');
+                    header('Location: ' . url('/player/profile'));
                     exit;
                 }
 
                 $userId = Session::getUserId();
                 if (!$userId) {
                     Session::setFlash('error', 'User not authenticated.');
-                    header('Location: /login');
+                    header('Location: ' . url('/login'));
                     exit;
                 }
 
@@ -66,7 +66,7 @@ class DocumentController
                 Session::setFlash('error', 'An error occurred during upload.');
             }
             
-            header('Location: /profile');
+            header('Location: ' . url('/player/profile'));
             exit;
         }
     }

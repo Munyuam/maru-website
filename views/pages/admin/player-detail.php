@@ -1,6 +1,6 @@
 <div class="page-header mb-4">
     <div class="flex items-center gap-3">
-        <a href="/admin/players" class="btn btn-sm btn-light text-muted hover-bg-light rounded-pill px-3 shadow-sm"><i class="ph ph-arrow-left mr-1"></i> Back to Players</a>
+        <a  href="<?= url('/admin/players') ?>"  class="btn btn-sm btn-light text-muted hover-bg-light rounded-pill px-3 shadow-sm"><i class="ph ph-arrow-left mr-1"></i> Back to Players</a>
     </div>
 </div>
 
@@ -11,7 +11,7 @@
             <div class="bg-primary text-center pt-5 pb-3 relative">
                 <div class="avatar avatar-xl mx-auto bg-white text-primary flex items-center justify-center rounded-circle shadow-md border-4 border-white overflow-hidden" style="width: 120px; height: 120px; font-size: 3rem; margin-bottom: -60px; font-weight: bold;">
                     <?php if (!empty($player['avatar'])): ?>
-                        <img src="/public/uploads/avatars/<?= htmlspecialchars($player['avatar']) ?>" alt="Avatar" class="avatar-img" loading="lazy">
+                        <img  src="<?= url('/public/uploads/avatars/' . htmlspecialchars($player['avatar'])) ?>"  alt="Avatar" class="avatar-img" loading="lazy">
                     <?php else: ?>
                         <?= strtoupper(substr($player['first_name'] ?? 'P', 0, 1)) ?><?= strtoupper(substr($player['last_name'] ?? '', 0, 1)) ?>
                     <?php endif; ?>
@@ -60,7 +60,7 @@
                 <h3 class="text-lg font-bold m-0"><i class="ph ph-clipboard-check text-primary mr-2"></i> Update Status</h3>
             </div>
             <div class="card-body">
-                <form action="/admin/players/<?= $player['id'] ?>/status" method="POST">
+                <form  action="<?= url('/admin/players/' . $player['id'] . '/status') ?>"  method="POST">
                     <input type="hidden" name="csrf_token" value="<?= \App\Helpers\Session::generateCsrfToken() ?>">
                     <div class="form-group mb-4">
                         <label class="text-sm font-medium text-muted uppercase tracking-wider mb-2 d-block">Admin Notes (Optional)</label>
@@ -127,6 +127,6 @@
     <i class="ph ph-user text-4xl text-muted mb-4 block"></i>
     <h3 class="text-xl font-bold mb-2">Player Not Found</h3>
     <p class="text-muted mb-4">The requested player could not be found.</p>
-    <a href="/admin/players" class="btn btn-primary">Back to Players</a>
+    <a  href="<?= url('/admin/players') ?>"  class="btn btn-primary">Back to Players</a>
 </div>
 <?php endif; ?>

@@ -13,7 +13,7 @@ $teamIcons = ['ph-fire', 'ph-paw-print', 'ph-feather', 'ph-lightning', 'ph-shiel
             <i class="ph ph-magnifying-glass absolute text-muted" style="left: 12px; top: 50%; transform: translateY(-50%);"></i>
             <input type="text" class="form-control pl-5 rounded-pill bg-white shadow-sm border-0" placeholder="Search teams...">
         </div>
-        <a href="/admin/teams/create" class="btn btn-primary rounded-pill px-4 shadow-sm flex items-center"><i class="ph ph-plus mr-2"></i> Add Team</a>
+        <a  href="<?= url('/admin/teams/create') ?>"  class="btn btn-primary rounded-pill px-4 shadow-sm flex items-center"><i class="ph ph-plus mr-2"></i> Add Team</a>
     </div>
 </div>
 
@@ -52,7 +52,7 @@ $teamIcons = ['ph-fire', 'ph-paw-print', 'ph-feather', 'ph-lightning', 'ph-shiel
                             <div class="flex items-center">
                                 <?php if (!empty($team['coach_avatar'])): ?>
                                     <div class="avatar-sm mr-2 overflow-hidden" style="width: 24px; height: 24px; border-radius: var(--radius-full);">
-                                        <img src="/public/uploads/avatars/<?= htmlspecialchars($team['coach_avatar']) ?>" alt="Coach" class="avatar-img" loading="lazy">
+                                        <img  src="<?= url('/public/uploads/avatars/' . htmlspecialchars($team['coach_avatar'])) ?>"  alt="Coach" class="avatar-img" loading="lazy">
                                     </div>
                                 <?php endif; ?>
                                 <span class="font-medium text-dark"><?= htmlspecialchars($coachName) ?></span>
@@ -81,7 +81,7 @@ $teamIcons = ['ph-fire', 'ph-paw-print', 'ph-feather', 'ph-lightning', 'ph-shiel
         <i class="ph ph-trophy text-4xl text-muted mb-4 block"></i>
         <h3 class="text-xl font-bold mb-2">No Teams Yet</h3>
         <p class="text-muted mb-4">Create your first team to get started.</p>
-        <a href="/admin/teams/create" class="btn btn-primary"><i class="ph ph-plus mr-2"></i> Add Team</a>
+        <a  href="<?= url('/admin/teams/create') ?>"  class="btn btn-primary"><i class="ph ph-plus mr-2"></i> Add Team</a>
     </div>
 <?php endif; ?>
 
